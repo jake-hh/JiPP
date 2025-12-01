@@ -1,0 +1,1 @@
+Wszystkie tablice alokowane dynamicznie. Tekst składa się z wielu linii za wyjątkiem projektów nr 11, 14, 15, 19, 20. Wydział Informatyki i Matematyki Politechniki Krakowskiej.
