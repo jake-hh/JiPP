@@ -3,14 +3,12 @@
 #include <string.h>
 #pragma warning(disable: 4996)
 
-#define LL 20
-
-FILE *fw, *fd;
-void argumenty(int, char **);
 extern void error(int, char *);
+void argumenty(int, char **);
 
 
 int main(int argc, char *argv[]) {
+	FILE *fw, *fd;
 
 	double **a, **b, **c, *x, *y, r;
 	int i, j, k, n, m;
@@ -29,7 +27,7 @@ int main(int argc, char *argv[]) {
     if (!(a = (double**)malloc(n * sizeof(double*))))
 		error(3, "malloc");
 
-	for (int i = 0; i < LL; i++)
+	for (int i = 0; i < n; i++)
 		if (!(a[i] = (double*)malloc(m * sizeof(double))))
 			error(3, "malloc");
 
@@ -37,7 +35,7 @@ int main(int argc, char *argv[]) {
     if (!(b = (double**)malloc(n * sizeof(double*))))
 		error(3, "malloc");
 
-	for (int i = 0; i < LL; i++)
+	for (int i = 0; i < n; i++)
 		if (!(b[i] = (double*)malloc(m * sizeof(double))))
 			error(3, "malloc");
 
@@ -45,7 +43,7 @@ int main(int argc, char *argv[]) {
     if (!(c = (double**)malloc(n * sizeof(double*))))
 		error(3, "malloc");
 
-	for (int i = 0; i < LL; i++)
+	for (int i = 0; i < n; i++)
 		if (!(c[i] = (double*)malloc(m * sizeof(double))))
 			error(3, "malloc");
 
