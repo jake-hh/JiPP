@@ -1,18 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#pragma warning (disable: 4996)
+// #include <locale.h>
+// #pragma warning (disable: 4996)
+
+#define FORMAT_UP	'g'
+#define FORMAT_DOWN	'd'
+
+#define MAX_LINE 256
 
 #define INPUT_FILE "file.txt"
+// #define OUTPUT_FILE
+
+extern void error(int nr, char *str);
 
 
-/* ---------------- READ LINE ---------------- */
+void free_words(char **words, int wcount) {
+    for (int i = 0; i < wcount; i++) {
+		free(words[i]);
+        words[i] = NULL;
+    }
+    free(words);
+    words = NULL;
+}
+
+
 char *read_line(const char *filename) {
 
     FILE *f = fopen(filename, "r");
     if (!f) {
-		perror("open input");
-		return NULL;
+        error(3, filename);
 	}
 
 	// dynamically allocated
@@ -23,8 +40,7 @@ char *read_line(const char *filename) {
 
     if (len <= 0) {
         free(buf);
-        fprintf(stderr, "No data in file\n");
-        return NULL;
+        error(4, filename);
     }
 
     if (buf[len - 1] == '\n')
@@ -33,14 +49,14 @@ char *read_line(const char *filename) {
     return buf;
 }
 
-/* ---------------- SPLIT INTO WORDS ---------------- */
-char **split_words(char *text, int *count) {
-    int cap = 4, n = 0;
+
+char **split_words(char *text, int *wcount) {
+    int cap = 8, n = 0;
 
     char **words = malloc(cap * sizeof(char*));
     if (!words) {
-		perror("malloc");
-		return NULL;
+        free(text);
+        error(5, "malloc");
 	}
 
     char *tok = strtok(text, " ");
@@ -50,8 +66,9 @@ char **split_words(char *text, int *count) {
 
             char **tmp = realloc(words, cap * sizeof(char*));
             if (!tmp) {
-				perror("realloc");
-				return NULL;
+                free(text);
+                free_words(words, *wcount);
+                error(5, "realloc");
 			}
 
             words = tmp;
@@ -59,89 +76,126 @@ char **split_words(char *text, int *count) {
 
         words[n] = strdup(tok);
         if (!words[n]) {
-			perror("strdup");
-			return NULL;
+            free(text);
+            free_words(words, *wcount);
+            error(5, "strdup");
 		}
 
         n++;
         tok = strtok(NULL, " ");
     }
 
-    *count = n;
+    *wcount = n;
     return words;
 }
 
-/* ---------------- MAX WORD LENGTH ---------------- */
-int find_max_word_len(char **words, int count) {
+
+int map_words_len(char **words, int wcount, int *wlen) {
     int max = 0;
 
-    for (int i = 0; i < count; i++) {
-        int len = strlen(words[i]);
-        if (len > max)
-			max = len;
+    for (int i = 0; i < wcount; i++) {
+        wlen[i] = strlen(words[i]);
+        if (wlen[i] > max)
+			max = wlen[i];
     }
     return max;
 }
 
-/* ---------------- PRINT VERTICAL COLUMNS ---------------- */
-int print_vertical_columns(const char *outfile, char **words, int count) {
+
+void printc(char c, FILE *f) {
+    putchar(c);
+    fputc(c, f);
+}
+
+
+void print_vertical_columns(const char *outfile, char **words, int wcount, char type) {
     FILE *f = fopen(outfile, "w");
     if (!f) {
-		perror("open output");
-		return 0;
+        free_words(words, wcount);
+        error(3, outfile);
 	}
 
-    int maxh = find_max_word_len(words, count);
+    int *wlen = malloc(wcount * sizeof(int));
+    if (!wlen) {
+        free_words(words, wcount);
+        error(5, "malloc");
+	}
+
+    int maxh = map_words_len(words, wcount, wlen);
 
     for (int r = 0; r < maxh; r++) {
-        for (int c = 0; c < count; c++) {
+        for (int c = 0; c < wcount; c++) {
 
-            char ch = (r < (int)strlen(words[c])) ? words[c][r] : ' ';
+            int d = maxh - wlen[c];
+            char ch;
 
-            putchar(ch);
-            fputc(ch, f);
+            if (type == FORMAT_UP)
+                ch = r < wlen[c] ? words[c][r] : ' ';
+            else
+                ch = r >= d ? words[c][r - d] : ' ';
 
-            if (c < count - 1) {
-                putchar(' ');
-                fputc(' ', f);
-            }
+            printc(ch, f);
+
+            if (c < wcount - 1)
+                printc(' ', f);
         }
-        putchar('\n');
-        fputc('\n', f);
+        printc('\n', f);
     }
 
     fclose(f);
-    return 1;
 }
 
-/* ---------------- FREE WORDS ---------------- */
-void free_words(char **words, int count) {
-    for (int i = 0; i < count; i++)
-		free(words[i]);
-    free(words);
-}
 
-/* ---------------- MAIN ---------------- */
-int main() {
-    char *line = read_line(INPUT_FILE);
-    if (!line)
-		return 1;
+char getFormatType() {
+	char c;
 
-    int count = 0;
+	printf("Program do formatowania tekstu\n");
+	printf("Podaj typ formatowania ([g]ora / [d]ol): ");
 
-    char **words = split_words(line, &count);
-    if (!words) {
-		free(line);
-		return 1;
+	// Check if scanf has read 1 variable
+	if (scanf("%c", &c) != 1) {
+        error(1, "Blad przy wczytaniu, podaj char");
+	}
+	printf("\n");
+
+	if (c != FORMAT_UP && c != FORMAT_DOWN) {
+        error(1, "nalezy podac 'g' lub 'd'");
 	}
 
-    if (!print_vertical_columns("output.txt", words, count)) {
-        free_words(words, count);
-        free(line);
-        return 1;
-    }
+	return c;
+}
 
-    free_words(words, count);
+
+int main(int argc, char **argv) {
+    // setlocale(LLC, " 1250");
+
+	if (argc != 3) {
+        error(2, "nalezy podac plik wejsciowy i wyjsciowy");
+	}
+
+	char type = getFormatType();
+
+    char *line = read_line(argv[1]);
+    if (!line)
+        error(6, "read_line zwrocilo NULL");
+
+    int wcount = 0;
+    char **words = split_words(line, &wcount);
+    if (!words) {
+		free(line); line = NULL;
+        error(6, "split_words zwrocilo NULL");
+	}
+
     free(line);
+    line = NULL;
+
+    print_vertical_columns(argv[2], words, wcount, type);
+
+	// if (argc != 3)
+	// 	printf("WARNING: Nie podano nazwy pliku wyjściowego, pomijam zapis\n");
+	// else
+	// 	write_file(argv[2], d, lines_count);
+
+    free_words(words, wcount);
     return 0;
 }
