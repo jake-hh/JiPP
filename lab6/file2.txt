@@ -1,0 +1,5 @@
+Przekazywanie:tablic:dwuindeksowych:sprowadza:się:do:przekazywania:jednoindeksowej
+te:w:obu:wersjach:funkcji:są:w:pełni:równoważne.:Bez:względu:na:sposób:deklarowania:można
+Poniższa:funkcja:licz_slowa:jest:modyfikacją:funkcji:licz_slowa_1.:Deklaracje:identyfikatora
+tablicy:wskaźników:do:jej:wierszy,:czyli:adresu:początkowego:elementu:tablicy:wskaźników.
+odwoływać:się:do:tekstów:przez:elementy:tablic:lub:przez:wskazanie:pośrednie
