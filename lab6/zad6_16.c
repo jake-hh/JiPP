@@ -109,7 +109,7 @@ void print_matching_lines(char **d, int lines_count, const char *pattern) {
 
 	for (int i = 0; i < lines_count; i++) {
 		if (common_pattern_len(d[i], pattern) == strlen(pattern)) {
-			printf("%d: [match] %s\n", i, d[i]);
+			printf("%d: [match] %s\n", i + 1, d[i]);
 			found = 1;
 		}
 	}
