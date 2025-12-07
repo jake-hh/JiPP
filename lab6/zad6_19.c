@@ -12,8 +12,6 @@
 #define CMD_ENCODE "--encode"
 #define CMD_DECODE "--decode"
 
-#define LEN 
-
 const char litery[] = {'a',165,'b','c',134,'d','e',169,'f','g','h','i','j','k','l',136,
 'm','n',228,'o',162,'p','q','r','s',152,'t','u','v','w','x','y','z',190,171,
 'A',164,'B','C',143,'D','E',168,'F','G','H','I','J','K','L',157,'M','N',
