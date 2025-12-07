@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// #include <locale.h>
 
 #define MAX_CHARS 256
 #define MAX_LINES 200
@@ -15,6 +16,7 @@ int find_word_in_lines(char **te, int wanted_pos);
 
 
 int main(int argc, char **argv) {
+	// setlocale(LLC_ALL, "Polish_Poland.1250");
 	printf("Program do wstawiania nowej linii za linią o wybranym numerze\n");
 
 	if (argc != 2) {

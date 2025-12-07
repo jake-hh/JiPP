@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// #include <locale.h>
 
 #define MAX_CHARS 1024
 #define MAX_LINES 200
@@ -39,6 +40,7 @@ char get_mode(char *cmd);
 
 
 int main(int argc, char **argv) {
+	// setlocale(LLC_ALL, "Polish_Poland.1250");
 	printf("Program do konwertowania na kod morsa\n");
 
 	if (argc != 4) {
