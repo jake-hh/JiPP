@@ -8,7 +8,7 @@
 #define SEPARATOR ':'
 
 char **read_file(const char *file_name, int *lines_count);
-int getNumber(const char *prompt, int min, int max);
+int get_number(const char *prompt, int min, int max);
 void print_lines(char **d, int lines_count);
 int find_word_in_line(char *te, int wanted_pos, int *cur_pos);
 int find_word_in_lines(char **te, int wanted_pos);
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 	char **d = read_file(argv[1], &lines_count);
 
 	printf("Ilosc linii: %d\n", lines_count);
-	int n = getNumber("Podaj numer slowa", 1, 1000000) - 1;
+	int n = get_number("Podaj numer slowa", 1, 1000000) - 1;
 
 	print_lines(d, lines_count);
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 }
 
 
-int getNumber(const char *prompt, int min, int max) {
+int get_number(const char *prompt, int min, int max) {
 	printf("%s: ", prompt);
 	int n = 0;
 

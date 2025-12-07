@@ -8,8 +8,8 @@
 
 char **read_file(const char *file_name, int *lines_count);
 void write_file(const char *file_name, char **d, int lines_count);
-int getNumber(const char *prompt, int min, int max);
-char *getString(const char *prompt);
+int get_number(const char *prompt, int min, int max);
+char *get_str(const char *prompt);
 void insert_after(char **d, int *lines_count, char *line, int n);
 void print_lines(char **d, int lines_count);
 
@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
 	char **d = read_file(argv[1], &lines_count);
 
 	printf("Ilosc linii: %d\n", lines_count);
-	int n = getNumber("Podaj numer linii za którą wstawić nową linię", 1, lines_count) - 1;
-	char *line = getString("Podaj zawartość nowej linii");
+	int n = get_number("Podaj numer linii za którą wstawić nową linię", 1, lines_count) - 1;
+	char *line = get_str("Podaj zawartość nowej linii");
 
 	print_lines(d, lines_count);
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 }
 
 
-int getNumber(const char *prompt, int min, int max) {
+int get_number(const char *prompt, int min, int max) {
 	printf("%s: ", prompt);
 	int n = 0;
 
@@ -64,7 +64,7 @@ int getNumber(const char *prompt, int min, int max) {
 	return n;
 }
 
-char *getString(const char *prompt) {
+char *get_str(const char *prompt) {
 	printf("%s: ", prompt);
 
 	char buf[MAX_CHARS];

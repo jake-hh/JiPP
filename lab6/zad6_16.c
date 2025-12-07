@@ -7,7 +7,7 @@
 #define MAX_LINES 200
 
 char **read_file(const char *file_name, int *lines_count);
-char *getString(const char *prompt);
+char *get_str(const char *prompt);
 void print_lines(char **d, int lines_count);
 void print_matching_lines(char **d, int lines_count, const char *pattern);
 int common_pattern_len(const char *a, const char *b);
@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 	print_lines(d, lines_count);
 	printf("Ilosc linii: %d\n", lines_count);
 
-	char *pattern = getString("Podaj pattern");
+	char *pattern = get_str("Podaj pattern");
 
 	//print_lines(d, lines_count);
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
 }
 
 
-char *getString(const char *prompt) {
+char *get_str(const char *prompt) {
 	printf("%s: ", prompt);
 
 	char buf[MAX_CHARS];

@@ -8,7 +8,7 @@
 
 char **read_file(const char *file_name, int *lines_count);
 void write_file(const char *file_name, char **d, int lines_count);
-int getNumber(const char *prompt, int min, int max);
+int get_number(const char *prompt, int min, int max);
 void swap_lines(char **d, int l1, int l2);
 void print_lines(char **d, int lines_count);
 
@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
 	char **d = read_file(argv[1], &lines_count);
 
 	printf("Ilosc linii: %d\n", lines_count);
-	int l1 = getNumber("Podaj numer pierwszej linii", 1, lines_count) - 1;
-	int l2 = getNumber("Podaj numer drugiej linii", 1, lines_count) - 1;
+	int l1 = get_number("Podaj numer pierwszej linii", 1, lines_count) - 1;
+	int l2 = get_number("Podaj numer drugiej linii", 1, lines_count) - 1;
 
 	print_lines(d, lines_count);
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 }
 
 
-int getNumber(const char *prompt, int min, int max) {
+int get_number(const char *prompt, int min, int max) {
 	printf("%s: ", prompt);
 	int n = 0;
 
