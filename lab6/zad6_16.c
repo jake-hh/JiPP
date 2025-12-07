@@ -59,6 +59,7 @@ char *get_str(const char *prompt) {
 			printf("Brak pamieci\n");
 			exit(4);
 	}
+	strcpy(str, buf);
 
 	return str;
 }
@@ -107,7 +108,7 @@ void print_matching_lines(char **d, int lines_count, const char *pattern) {
 	int found = 0;
 
 	for (int i = 0; i < lines_count; i++) {
-		if (common_pattern_len(d[i], pattern) == strlen(pattern) - 1) {
+		if (common_pattern_len(d[i], pattern) == strlen(pattern)) {
 			printf("%d: [match] %s\n", i, d[i]);
 			found = 1;
 		}
