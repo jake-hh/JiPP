@@ -1,0 +1,5 @@
+przekazywanie tablic dwuindeksowych sprowadza si?? do przekazywania jednoindeksowej
+te w obu wersjach funkcji s?? w pe??ni r??wnowa??ne. bez wzgl??du na spos??b deklarowania mo??na
+poni??sza funkcja licz?slowa jest modyfikacj?? funkcji licz?slowa?1 . deklaracje identyfikatora
+tablicy wska??nik??w do jej wierszy , czyli adresu pocz??tkowego elementu tablicy wska??nik??w.
+odwo??ywa?? si?? do tekst??w przez elementy tablic lub przez wskazanie po??rednie
