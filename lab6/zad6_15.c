@@ -15,7 +15,7 @@ void print_lines(char **d, int lines_count);
 
 
 int main(int argc, char **argv) {
-	// setlocale(LLC_ALL, "Polish_Poland.1250");
+	// setlocale(LC_ALL, "Polish_Poland.1250");
 	printf("Program do zamiany tesktu z dwóch wybranych linii\n");
 
 	if (argc != 2 && argc != 3) {

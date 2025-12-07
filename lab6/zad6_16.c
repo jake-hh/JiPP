@@ -16,7 +16,7 @@ int common_pattern_len(const char *a, const char *b);
 
 
 int main(int argc, char **argv) {
-	// setlocale(LLC_ALL, "Polish_Poland.1250");
+	// setlocale(LC_ALL, "Polish_Poland.1250");
 	printf("Program do znajdowania pasujących linii\n");
 
 	if (argc != 2) {

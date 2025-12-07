@@ -38,7 +38,7 @@ char get_mode(char *cmd);
 
 
 int main(int argc, char **argv) {
-	// setlocale(LLC_ALL, "Polish_Poland.1250");
+	// setlocale(LC_ALL, "Polish_Poland.1250");
 	printf("Program do konwertowania na kod morsa\n");
 
 	if (argc != 4) {
