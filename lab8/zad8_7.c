@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <locale.h>
 #pragma warning(disable: 4996)
 
 extern void error(int, char *);
@@ -13,6 +14,8 @@ void argumenty(int, char **);
 
 
 int main(int argc, char *argv[]) {
+	//setlocale(LC_ALL, "Polish_Poland.1250");
+
 	FILE *fd;
 	double **ma, a, b, sum = 0;
 	int n;
