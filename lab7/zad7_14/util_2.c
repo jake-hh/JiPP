@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-extern void error(int nr, char *str) {
+extern void error(int nr, char *str);
 
 
 double *DajWekt(int n) {
