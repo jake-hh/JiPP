@@ -83,7 +83,7 @@ char *read_line(const char *filename) {
 	// dynamically allocated
     char *buf = NULL;
     size_t cap = 0;
-    ssize_t len = getline(&buf, &cap, f);
+    size_t len = getline(&buf, &cap, f);
     fclose(f);
 
     if (len <= 0) {

@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #define MAX_ERR 7
 
-static char *p[] = { "",
+static const char *p[] = { "",
 	"Zle dane",
-	"Zła liczba argumentow"
+	"Zła liczba argumentow",
 	"Otwarcie pliku",
-	"Pusty plik"
+	"Pusty plik",
 	"Brak pamieci",
-	"Usage",
-	"Nieznany",
+	"Inny",
+	"Nieznany"
 };
 
 void error(int nr, const char *str) {
-	int k;
-	k = nr >= MAX_ERR ? MAX_ERR : nr;
+	int k = nr >= MAX_ERR ? MAX_ERR : nr;
+
 	fprintf(stderr, "Blad(%d) - %s: %s\n", nr, p[k], str);
 	exit(nr);
 }
