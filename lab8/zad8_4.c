@@ -9,7 +9,6 @@ void argumenty(int, char **);
 
 int main(int argc, char *argv[]) {
 	FILE *fw, *fd;
-
 	double **a, **b, **c, *x, *y, r;
 	int i, j, k, n, m;
 
@@ -55,7 +54,6 @@ int main(int argc, char *argv[]) {
     if (!(y = (double*)malloc(m * sizeof(double))))
 		error(3, "malloc");
 
-
 	// -- Read matrixes & vectors --
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
@@ -67,7 +65,6 @@ int main(int argc, char *argv[]) {
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			fscanf(fd, "%lf", &b[i][j]);
-
 
 	// -- Calculate matrix and vector
 	for (i = 0; i < n; i++)
@@ -95,6 +92,27 @@ int main(int argc, char *argv[]) {
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
 	}
+
+	// -- Free memory --
+	for (int i = 0; i < n; i++)
+		free(a[i]);
+	free(a);
+	a = NULL;
+
+	for (int i = 0; i < n; i++)
+		free(b[i]);
+	free(b);
+	b = NULL;
+
+	for (int i = 0; i < n; i++)
+		free(c[i]);
+	free(c);
+	c = NULL;
+
+	free(x);
+	x = NULL;
+	free(y);
+	y = NULL;
 
 	return 0;
 }
