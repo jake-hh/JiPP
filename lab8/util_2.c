@@ -1,5 +1,9 @@
+#include <stdlib.h>
 #include <stdio.h>
 #pragma warning(disable:4996)
+
+extern void error(int, char *);
+
 
 double *DajWekt(int n) {
 	double *w;

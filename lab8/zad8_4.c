@@ -80,20 +80,22 @@ int main(int argc, char *argv[]) {
 	}
 
 	// -- Write to file --
-	fprintf(fw, "Macierz C\n")
+	fprintf(fw, "Macierz C\n");
 	for (i = 0; i < n; i++) {
 		for (j = 0; j < m; j++)
 			fprintf(fw, "%lf ", c[i][j]);
 
 		fprintf(fw, "\n");
 	}
+	fprintf(fw, "\n");
 
-	fprintf(fw, "Wektor Y\n")
+	fprintf(fw, "Wektor Y\n");
 	for (i = 0; i < m; i++) {
 		fprintf(fw, "%lf ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
 	}
+	fprintf(fw, "\n");
 
 	// -- Free memory --
 	for (int i = 0; i < n; i++)

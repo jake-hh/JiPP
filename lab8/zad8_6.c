@@ -43,20 +43,14 @@ int main(int argc, char *argv[]) {
 	b = DajMac_1(n, m);
 	c = DajMac_1(n, m);
 
-	// Vector X
-    if (!(x = (double*)malloc(m * sizeof(double))))
-		error(3, "malloc");
-
-	// Vector Y
-    if (!(y = (double*)malloc(m * sizeof(double))))
-		error(3, "malloc");
+	// Vectors x, y
+	x = DajWekt(m);
+	y = DajWekt(m);
 
 	// -- Read matrixes & vectors --
 	CzytMac(fd, a, n, m);
 	CzytMac(fd, b, n, m);
-
-	for (int i = 0; i < m; i++)
-		fscanf(fd, "%lf", &x[i]);
+	CzytWekt(fd, x, m);
 
 	// -- Calculate matrix and vector
 	DodMac(a, b, c, n, m);
@@ -69,26 +63,15 @@ int main(int argc, char *argv[]) {
 	PiszMac(fw, c, n, m);
 
 	printf("Wektor Y\n");
-	for (int i = 0; i < m; i++) {
-		printf("%lf ", y[i]);
-		if (!((i + 1) % 5))
-			printf("\n");
-	}
-	printf("\n");
-
+	PiszWekt(stdout, y, m);
 	fprintf(fw, "Wektor Y\n");
-	for (int i = 0; i < m; i++) {
-		fprintf(fw, "%lf ", y[i]);
-		if (!((i + 1) % 5))
-			fprintf(fw, "\n");
-	}
-	fprintf(fw, "\n");
+	PiszWekt(fw, y, m);
 
 	ZwrocMac_1(a, n);
 	ZwrocMac_1(b, n);
 	ZwrocMac_1(c, n);
-	free(x);
-	free(y);
+	ZwrocMac_2(x);
+	ZwrocMac_2(y);
 
 	return 0;
 }
