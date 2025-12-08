@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#pragma warning(disable: 4996)
 
-extern void error(int, char *);
+extern void error(int, const char *);
 
 
 double **DajMac_1(int n, int m) {
@@ -44,7 +45,7 @@ void CzytMac(FILE *fd, double **ma, int n, int m) {
 		for (int j = 0; j < m; j++)
 
 			if (fscanf(fd, "%lf", &ma[i][j]) != 1) {
-				char *err = malloc((unsigned)25);
+				char *err = (char*)malloc((unsigned)25);
 				sprintf(err, "element nr %d %d\n", i, j);
 				error(5, err);
 			}

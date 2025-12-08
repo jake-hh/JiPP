@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#pragma warning(disable:4996)
+#pragma warning(disable: 4996)
 
-extern void error(int, char *);
+extern void error(int, const char *);
 
 
 double *DajWekt(int n) {
@@ -19,7 +19,7 @@ void CzytWekt(FILE *fd, double *we, int n) {
 	for (int i = 0; i < n; i++) {
 
 		if (fscanf(fd, "%lf", &we[i]) != 1) {
-			char *err = malloc((unsigned)25);
+			char *err = (char*)malloc((unsigned)25);
 			sprintf(err, "element nr %d\n", i);
 			error(5, err);
 		}

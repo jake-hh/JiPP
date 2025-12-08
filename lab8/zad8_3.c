@@ -4,7 +4,7 @@
 #pragma warning(disable: 4996)
 #define LL 20
 
-extern void error(int, char *);
+extern void error(int, const char *);
 void argumenty(int, char **);
 
 int main(int argc, char *argv[]) {

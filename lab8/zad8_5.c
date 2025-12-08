@@ -4,7 +4,7 @@
 //#include <locale.h>
 #pragma warning(disable: 4996)
 
-extern void error(int, char *);
+extern void error(int, const char *);
 
 extern double *DajWekt(int n);
 extern void CzytWekt(FILE *fd, double *we, int n);

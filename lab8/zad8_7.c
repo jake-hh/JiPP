@@ -4,7 +4,7 @@
 //#include <locale.h>
 #pragma warning(disable: 4996)
 
-extern void error(int, char *);
+extern void error(int, const char *);
 
 extern double **DajMac_1(int n, int m);
 extern void ZwrocMac_1(double **ma, int n);
