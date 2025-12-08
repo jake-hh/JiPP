@@ -8,11 +8,11 @@ double **DajMac_1(int n, int m) {
 	double **ma;
 
     if (!(ma = (double**)malloc(n * sizeof(double*))))
-		error(3, "malloc");
+		error(3, "malloc macierz");
 
 	for (int i = 0; i < n; i++)
 		if (!(ma[i] = (double*)malloc(m * sizeof(double))))
-			error(3, "malloc");
+			error(3, "malloc macierz");
 
 	return ma;
 }
@@ -21,7 +21,7 @@ double *DajMac_2(int n, int m) {
 	double *ma;
 
     if (!(ma = (double*)malloc(n * m * sizeof(double))))
-		error(3, "malloc");
+		error(3, "malloc macierz");
 
 	return ma;
 }
@@ -39,13 +39,15 @@ void ZwrocMac_2(double *ma) {
 
 
 void CzytMac(FILE *fd, double **ma, int n, int m) {
-	int i, j;
-	char *err;
 
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < m; j++)
-			if (fscanf(fd, "%lf", &ma[i][j]) != 1)
-				printf("blad - element nr %d %d\n", i, j);
+
+			if (fscanf(fd, "%lf", &ma[i][j]) != 1) {
+				char *err = malloc((unsigned)25);
+				sprintf(err, "element nr %d %d\n", i, j);
+				error(5, err);
+			}
 }
 
 
