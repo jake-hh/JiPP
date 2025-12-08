@@ -30,23 +30,25 @@ int main(int argc, char **argv) {
 
 	char mode = get_format_mode();
 
-    char *line = read_line(argv[1]);
-    if (!line)
+    char *text = read_line(argv[1]);
+    if (!text)
         error(6, "read_line zwrocilo NULL");
 
     int wcount = 0;
-    char **words = split_words(line, &wcount);
+    char **words = split_words(text, &wcount);
     if (!words) {
-		free(line); line = NULL;
-        error(6, "split_words zwrocilo NULL");
+		free(text);
+        text = NULL;
+        error(5, "split_words memory allocation");
 	}
 
-    free(line);
-    line = NULL;
+    free(text);
+    text = NULL;
 
     print_vertical_columns(argv[2], words, wcount, mode);
 
     free_words(words, wcount);
+    words = NULL;
     return 0;
 }
 
@@ -101,8 +103,7 @@ char **split_words(char *text, int *wcount) {
 
     char **words = (char**)malloc(cap * sizeof(char*));
     if (!words) {
-        // free(text);
-        error(5, "malloc");
+        return NULL;
 	}
 
     while (text) {
@@ -115,9 +116,8 @@ char **split_words(char *text, int *wcount) {
 
             char **tmp = (char**)realloc(words, cap * sizeof(char*));
             if (!tmp) {
-                // free(text);
                 free_words(words, n);
-                error(5, "realloc");
+                return NULL;
 			}
 
             words = tmp;
@@ -125,9 +125,8 @@ char **split_words(char *text, int *wcount) {
 
         words[n] = (char*)malloc((wlen + 1) * sizeof(char));
         if (!words[n]) {
-            // free(text);
             free_words(words, n);
-            error(5, "strdup");
+            return NULL;
 		}
 
         memcpy(words[n], text, wlen * sizeof(char));
@@ -206,5 +205,4 @@ void free_words(char **words, int wcount) {
         words[i] = NULL;
     }
     free(words);
-    words = NULL;
 }
