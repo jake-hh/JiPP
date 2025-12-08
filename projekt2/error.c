@@ -12,7 +12,7 @@ static char *p[] = { "",
 	"Nieznany",
 };
 
-void error(int nr, char *str) {
+void error(int nr, const char *str) {
 	int k;
 	k = nr >= MAX_ERR ? MAX_ERR : nr;
 	fprintf(stderr, "Blad(%d) - %s: %s\n", nr, p[k], str);

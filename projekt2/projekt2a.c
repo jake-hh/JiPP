@@ -7,9 +7,10 @@
 #define FORMAT_UP	'g'
 #define FORMAT_DOWN	'd'
 
+#define SEPARATOR ' '
 #define MAX_LINE 256
 
-extern void error(int nr, char *str);
+extern void error(int nr, const char *str);
 
 char get_format_mode();
 char *read_line(const char *filename);
@@ -98,36 +99,44 @@ char *read_line(const char *filename) {
 char **split_words(char *text, int *wcount) {
     int cap = 8, n = 0;
 
-    char **words = malloc(cap * sizeof(char*));
+    char **words = (char**)malloc(cap * sizeof(char*));
     if (!words) {
-        free(text);
+        // free(text);
         error(5, "malloc");
 	}
 
-    char *tok = strtok(text, " ");
-    while (tok) {
+    while (text) {
+        int wlen = 0;
+
+        while (text[wlen] && text[wlen] != SEPARATOR) wlen++;
+
         if (n == cap) {
             cap *= 2;
 
-            char **tmp = realloc(words, cap * sizeof(char*));
+            char **tmp = (char**)realloc(words, cap * sizeof(char*));
             if (!tmp) {
-                free(text);
-                free_words(words, *wcount);
+                // free(text);
+                free_words(words, n);
                 error(5, "realloc");
 			}
 
             words = tmp;
         }
 
-        words[n] = strdup(tok);
+        words[n] = (char*)malloc((wlen + 1) * sizeof(char));
         if (!words[n]) {
-            free(text);
-            free_words(words, *wcount);
+            // free(text);
+            free_words(words, n);
             error(5, "strdup");
 		}
 
+        memcpy(words[n], text, wlen * sizeof(char));
+        words[n][wlen] = '\0';
+
         n++;
-        tok = strtok(NULL, " ");
+
+        if (!text[wlen]) break;
+        text += wlen + 1;
     }
 
     *wcount = n;
@@ -160,7 +169,7 @@ void print_vertical_columns(const char *outfile, char **words, int wcount, char 
         error(3, outfile);
 	}
 
-    int *wlen = malloc(wcount * sizeof(int));
+    int *wlen = (int*)malloc(wcount * sizeof(int));
     if (!wlen) {
         free_words(words, wcount);
         error(5, "malloc");
