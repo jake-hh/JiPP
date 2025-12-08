@@ -2,26 +2,71 @@
 #include <stdlib.h>
 #include <string.h>
 // #include <locale.h>
-// #pragma warning (disable: 4996)
+#pragma warning (disable: 4996)
 
 #define FORMAT_UP	'g'
 #define FORMAT_DOWN	'd'
 
 #define MAX_LINE 256
 
-#define INPUT_FILE "file.txt"
-// #define OUTPUT_FILE
-
 extern void error(int nr, char *str);
 
+char get_format_mode();
+char *read_line(const char *filename);
+char **split_words(char *text, int *wcount);
+int map_words_len(char **words, int wcount, int *wlen);
+void printc(char c, FILE *f);
+void print_vertical_columns(const char *outfile, char **words, int wcount, char mode);
+void free_words(char **words, int wcount);
 
-void free_words(char **words, int wcount) {
-    for (int i = 0; i < wcount; i++) {
-		free(words[i]);
-        words[i] = NULL;
-    }
-    free(words);
-    words = NULL;
+
+int main(int argc, char **argv) {
+	//setlocale(LC_ALL, "Polish_Poland.1250");
+
+	if (argc != 3) {
+        error(2, "nalezy podac plik wejsciowy i wyjsciowy");
+	}
+
+	char mode = get_format_mode();
+
+    char *line = read_line(argv[1]);
+    if (!line)
+        error(6, "read_line zwrocilo NULL");
+
+    int wcount = 0;
+    char **words = split_words(line, &wcount);
+    if (!words) {
+		free(line); line = NULL;
+        error(6, "split_words zwrocilo NULL");
+	}
+
+    free(line);
+    line = NULL;
+
+    print_vertical_columns(argv[2], words, wcount, mode);
+
+    free_words(words, wcount);
+    return 0;
+}
+
+
+char get_format_mode() {
+	char c;
+
+	printf("Program do formatowania tekstu\n");
+	printf("Podaj typ formatowania ([g]ora / [d]ol): ");
+
+	// Check if scanf has read 1 variable
+	if (scanf("%c", &c) != 1) {
+        error(1, "Blad przy wczytaniu, podaj char");
+	}
+	printf("\n");
+
+	if (c != FORMAT_UP && c != FORMAT_DOWN) {
+        error(1, "nalezy podac 'g' lub 'd'");
+	}
+
+	return c;
 }
 
 
@@ -108,7 +153,7 @@ void printc(char c, FILE *f) {
 }
 
 
-void print_vertical_columns(const char *outfile, char **words, int wcount, char type) {
+void print_vertical_columns(const char *outfile, char **words, int wcount, char mode) {
     FILE *f = fopen(outfile, "w");
     if (!f) {
         free_words(words, wcount);
@@ -129,7 +174,7 @@ void print_vertical_columns(const char *outfile, char **words, int wcount, char 
             int d = maxh - wlen[c];
             char ch;
 
-            if (type == FORMAT_UP)
+            if (mode == FORMAT_UP)
                 ch = r < wlen[c] ? words[c][r] : ' ';
             else
                 ch = r >= d ? words[c][r - d] : ' ';
@@ -146,56 +191,11 @@ void print_vertical_columns(const char *outfile, char **words, int wcount, char 
 }
 
 
-char getFormatType() {
-	char c;
-
-	printf("Program do formatowania tekstu\n");
-	printf("Podaj typ formatowania ([g]ora / [d]ol): ");
-
-	// Check if scanf has read 1 variable
-	if (scanf("%c", &c) != 1) {
-        error(1, "Blad przy wczytaniu, podaj char");
-	}
-	printf("\n");
-
-	if (c != FORMAT_UP && c != FORMAT_DOWN) {
-        error(1, "nalezy podac 'g' lub 'd'");
-	}
-
-	return c;
-}
-
-
-int main(int argc, char **argv) {
-    // setlocale(LLC, " 1250");
-
-	if (argc != 3) {
-        error(2, "nalezy podac plik wejsciowy i wyjsciowy");
-	}
-
-	char type = getFormatType();
-
-    char *line = read_line(argv[1]);
-    if (!line)
-        error(6, "read_line zwrocilo NULL");
-
-    int wcount = 0;
-    char **words = split_words(line, &wcount);
-    if (!words) {
-		free(line); line = NULL;
-        error(6, "split_words zwrocilo NULL");
-	}
-
-    free(line);
-    line = NULL;
-
-    print_vertical_columns(argv[2], words, wcount, type);
-
-	// if (argc != 3)
-	// 	printf("WARNING: Nie podano nazwy pliku wyjściowego, pomijam zapis\n");
-	// else
-	// 	write_file(argv[2], d, lines_count);
-
-    free_words(words, wcount);
-    return 0;
+void free_words(char **words, int wcount) {
+    for (int i = 0; i < wcount; i++) {
+		free(words[i]);
+        words[i] = NULL;
+    }
+    free(words);
+    words = NULL;
 }
