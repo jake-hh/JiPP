@@ -4,18 +4,6 @@
 #pragma warning(disable: 4996)
 
 extern void error(int, char *);
-
-extern double **DajMac_1(int n, int m);
-extern double **DajMac_2(int n, int m);
-extern void ZwrocMac_1(double **ma, int n, int m);
-extern void ZwrocMac_2(double **ma, int n, int m);
-extern void CzytMac(FILE *fd, double **ma, int n, int m);
-extern void PiszMac(FILE *fw, double **ma, int n, int m);
-
-extern void DodMac(double **ma1, double **ma2, double **ma3, int n, int m);
-extern void Mac_x_Wekt(double **ma, double *we, double *wy, int n, int m);
-extern void Mac_x_Mac(double **x, double **y, double **z, int n, int m, int p);
-
 void argumenty(int, char **);
 
 
@@ -82,9 +70,9 @@ int main(int argc, char *argv[]) {
 
 
 	// -- Calculate matrix and vector
-	// for (i = 0; i < n; i++)
-	// 	for (j = 0; j < m; j++)
-	// 		c[i][j] = a[i][j] + b[i][j];
+	for (i = 0; i < n; i++)
+		for (j = 0; j < m; j++)
+			c[i][j] = a[i][j] + b[i][j];
 
 	for (i = 0; i < n; i++) {
 		r = 0;
