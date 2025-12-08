@@ -31,8 +31,6 @@ int main(int argc, char **argv) {
 	char mode = get_format_mode();
 
     char *text = read_line(argv[1]);
-    if (!text)
-        error(6, "read_line zwrocilo NULL");
 
     int wcount = 0;
     char **words = split_words(text, &wcount);
@@ -81,20 +79,42 @@ char *read_line(const char *filename) {
 	}
 
 	// dynamically allocated
-    char *buf = NULL;
-    size_t cap = 0;
-    size_t len = getline(&buf, &cap, f);
+    int cap = 128;
+    int len = 0;
+    char c;
+
+    char *line = malloc(cap);
+    if (!line)
+        error(5, filename);
+
+    while ((c = fgetc(f)) != EOF) {
+        if (len + 1 >= cap) {
+            cap *= 2;
+
+            char *tmp = realloc(line, cap);
+            if (!tmp) {
+                fclose(f);
+                error(5, filename);
+            }
+
+            line = tmp;
+        }
+
+        line[len++] = c;
+        if (c == '\n')
+            break;
+    }
+
     fclose(f);
 
-    if (len <= 0) {
-        free(buf);
+    if (len <= 0 || !line) {
+        free(line);
         error(4, filename);
     }
 
-    if (buf[len - 1] == '\n')
-		buf[len - 1] = '\0';
+    line[len] = '\0';
 
-    return buf;
+    return line;
 }
 
 
