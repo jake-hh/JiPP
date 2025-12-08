@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 
 	printf("Wektor Y\n");
 	for (int i = 0; i < m; i++) {
-		printf("%lf ", y[i]);
+		printf("%g ", y[i]);
 		if (!((i + 1) % 5))
 			printf("\n");
 	}
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 
 	fprintf(fw, "Wektor Y\n");
 	for (int i = 0; i < m; i++) {
-		fprintf(fw, "%lf ", y[i]);
+		fprintf(fw, "%g ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
 	}

@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 	fprintf(fw, "Macierz C\n");
 	for (i = 0; i < n; i++) {
 		for (j = 0; j < m; j++)
-			fprintf(fw, "%lf ", c[i][j]);
+			fprintf(fw, "%g ", c[i][j]);
 
 		fprintf(fw, "\n");
 	}
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 
 	fprintf(fw, "Wektor Y\n");
 	for (i = 0; i < m; i++) {
-		fprintf(fw, "%lf ", y[i]);
+		fprintf(fw, "%g ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
 	}

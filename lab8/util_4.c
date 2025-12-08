@@ -54,7 +54,7 @@ void CzytMac(FILE *fd, double **ma, int n, int m) {
 void PiszMac(FILE *fw, double **ma, int n, int m) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++)
-			fprintf(fw, "%lf ", ma[i][j]);
+			fprintf(fw, "%g ", ma[i][j]);
 
 		fprintf(fw, "\n");
 	}
