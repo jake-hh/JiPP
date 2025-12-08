@@ -6,9 +6,9 @@
 extern void error(int, char *);
 
 extern double **DajMac_1(int n, int m);
-extern double **DajMac_2(int n, int m);
-extern void ZwrocMac_1(double **ma, int n, int m);
-extern void ZwrocMac_2(double **ma, int n, int m);
+extern double *DajMac_2(int n, int m);
+extern void ZwrocMac_1(double **ma, int n);
+extern void ZwrocMac_2(double *ma);
 extern void CzytMac(FILE *fd, double **ma, int n, int m);
 extern void PiszMac(FILE *fw, double **ma, int n, int m);
 
@@ -21,9 +21,8 @@ void argumenty(int, char **);
 
 int main(int argc, char *argv[]) {
 	FILE *fw, *fd;
-
-	double **a, **b, **c, *x, *y, r;
-	int i, j, k, n, m;
+	double **a, **b, **c, *x, *y;
+	int n, m;
 
 	// -- Open files & read sizes--
 	argumenty(argc, argv);
@@ -35,78 +34,42 @@ int main(int argc, char *argv[]) {
 	if (m < 1) error(1, "m < 1");
 
 	// -- Dynamically allocate memory --
-	// Matrix A
-    if (!(a = (double**)malloc(n * sizeof(double*))))
-		error(3, "malloc");
+	// Matrix A, B, C
+	a = DajMac_1(n, m);
+	b = DajMac_1(n, m);
+	c = DajMac_1(n, m);
 
-	for (int i = 0; i < n; i++)
-		if (!(a[i] = (double*)malloc(m * sizeof(double))))
-			error(3, "malloc");
-
-	// Matrix B
-    if (!(b = (double**)malloc(n * sizeof(double*))))
-		error(3, "malloc");
-
-	for (int i = 0; i < n; i++)
-		if (!(b[i] = (double*)malloc(m * sizeof(double))))
-			error(3, "malloc");
-
-	// Matrix C
-    if (!(c = (double**)malloc(n * sizeof(double*))))
-		error(3, "malloc");
-
-	for (int i = 0; i < n; i++)
-		if (!(c[i] = (double*)malloc(m * sizeof(double))))
-			error(3, "malloc");
-
-	// Vector X
-    if (!(x = (double*)malloc(m * sizeof(double))))
-		error(3, "malloc");
-
-	// Vector Y
-    if (!(y = (double*)malloc(m * sizeof(double))))
-		error(3, "malloc");
-
+	// Vectors x, y
+	x = DajMac_2(1, m);
+	y = DajMac_2(1, m);
 
 	// -- Read matrixes & vectors --
-	for (i = 0; i < n; i++)
-		for (j = 0; j < m; j++)
-			fscanf(fd, "%lf", &a[i][j]);
+	CzytMac(fd, a, n, m);
 
-	for (i = 0; i < m; i++)
+	for (int i = 0; i < m; i++)
 		fscanf(fd, "%lf", &x[i]);
 
-	for (i = 0; i < n; i++)
-		for (j = 0; j < m; j++)
-			fscanf(fd, "%lf", &b[i][j]);
+	CzytMac(fd, b, n, m);
 
 
 	// -- Calculate matrix and vector
-	// for (i = 0; i < n; i++)
-	// 	for (j = 0; j < m; j++)
-	// 		c[i][j] = a[i][j] + b[i][j];
-
-	for (i = 0; i < n; i++) {
-		r = 0;
-		for (k = 0; k < m; k++)
-			r += a[i][k] * x[k];
-
-		y[i] = r;
-	}
+	DodMac(a, b, c, n, m);
+	Mac_x_Wekt(a, x, y, n, m);
 
 	// -- Write to file --
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < m; j++)
-			fprintf(fw, "%lf ", c[i][j]);
+	PiszMac(fw, c, n, m);
 
-		fprintf(fw, "\n");
-	}
-
-	for (i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) {
 		fprintf(fw, "%lf ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
 	}
+
+	ZwrocMac_1(a, n);
+	ZwrocMac_1(b, n);
+	ZwrocMac_1(c, n);
+	ZwrocMac_2(x);
+	ZwrocMac_2(y);
 
 	return 0;
 }
