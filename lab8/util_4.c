@@ -58,4 +58,5 @@ void PiszMac(FILE *fw, double **ma, int n, int m) {
 
 		fprintf(fw, "\n");
 	}
+	fprintf(fw, "\n");
 }

@@ -25,8 +25,10 @@ void CzytWekt(FILE *fd, double *we, int n) {
 void PiszWekt(FILE *fw, double *we, int n) {
 
 	for (int i = 0; i < n; i++) {
-		fprintf(fw, "%15.4lf ", we[i]);
-		if (!((i + 1) % 5)) fprintf(fw, "\n");
+		fprintf(fw, "%lf ", we[i]);
+
+		if (!((i + 1) % 5))
+			fprintf(fw, "\n");
 	}
 	fprintf(fw, "\n");
 }

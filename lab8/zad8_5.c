@@ -5,6 +5,10 @@
 
 extern void error(int, char *);
 
+extern double *DajWekt(int n);
+extern void CzytWekt(FILE *fd, double *we, int n);
+extern void PiszWekt(FILE *fw, double *we, int n);
+
 extern double **DajMac_1(int n, int m);
 extern double *DajMac_2(int n, int m);
 extern void ZwrocMac_1(double **ma, int n);
@@ -40,30 +44,28 @@ int main(int argc, char *argv[]) {
 	c = DajMac_1(n, m);
 
 	// Vectors x, y
-	x = DajMac_2(1, m);
-	y = DajMac_2(1, m);
+	x = DajWekt(m);
+	y = DajWekt(m);
 
 	// -- Read matrixes & vectors --
 	CzytMac(fd, a, n, m);
-
-	for (int i = 0; i < m; i++)
-		fscanf(fd, "%lf", &x[i]);
-
 	CzytMac(fd, b, n, m);
-
+	CzytWekt(fd, x, m);
 
 	// -- Calculate matrix and vector
 	DodMac(a, b, c, n, m);
 	Mac_x_Wekt(a, x, y, n, m);
 
 	// -- Write to file --
+	printf("Macierz C\n")
+	PiszMac(stdout, c, n, m);
+	fprintf(fw, "Macierz C\n")
 	PiszMac(fw, c, n, m);
 
-	for (int i = 0; i < n; i++) {
-		fprintf(fw, "%lf ", y[i]);
-		if (!((i + 1) % 5))
-			fprintf(fw, "\n");
-	}
+	printf("Wektor Y\n")
+	PiszWekt(stdout, y, m);
+	fprintf(fw, "Wektor Y\n")
+	PiszWekt(fw, y, m);
 
 	ZwrocMac_1(a, n);
 	ZwrocMac_1(b, n);

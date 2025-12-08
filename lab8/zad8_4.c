@@ -59,12 +59,12 @@ int main(int argc, char *argv[]) {
 		for (j = 0; j < m; j++)
 			fscanf(fd, "%lf", &a[i][j]);
 
-	for (i = 0; i < m; i++)
-		fscanf(fd, "%lf", &x[i]);
-
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			fscanf(fd, "%lf", &b[i][j]);
+
+	for (i = 0; i < m; i++)
+		fscanf(fd, "%lf", &x[i]);
 
 	// -- Calculate matrix and vector
 	for (i = 0; i < n; i++)
@@ -80,6 +80,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// -- Write to file --
+	fprintf(fw, "Macierz C\n")
 	for (i = 0; i < n; i++) {
 		for (j = 0; j < m; j++)
 			fprintf(fw, "%lf ", c[i][j]);
@@ -87,7 +88,8 @@ int main(int argc, char *argv[]) {
 		fprintf(fw, "\n");
 	}
 
-	for (i = 0; i < n; i++) {
+	fprintf(fw, "Wektor Y\n")
+	for (i = 0; i < m; i++) {
 		fprintf(fw, "%lf ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");

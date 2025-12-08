@@ -22,12 +22,12 @@ int main(int argc, char *argv[]) {
 		for (j = 0; j < m; j++)
 			fscanf(fd, "%lf", &a[i][j]);
 
-	for (i = 0; i < m; i++)
-		fscanf(fd, "%lf", &x[i]);
-
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
 			fscanf(fd, "%lf", &b[i][j]);
+
+	for (i = 0; i < m; i++)
+		fscanf(fd, "%lf", &x[i]);
 
 	for (i = 0; i < n; i++)
 		for (j = 0; j < m; j++)
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 		fprintf(fw, "\n");
 	}
 
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < m; i++) {
 		fprintf(fw, "%lf ", y[i]);
 		if (!((i + 1) % 5))
 			fprintf(fw, "\n");
