@@ -10,7 +10,7 @@ double funkcja(double x, double f(double)) {
 
 int main() {
 	double x = 0.0;
-	printf("dla x = %g, f(x) = %g\n", funkcja(x, sin));
-	printf("dla x = %g, f(x) = %g\n", funkcja(x, cos));
+	printf("dla x = %g, f(x) = %g\n", x, funkcja(x, sin));
+	printf("dla x = %g, f(x) = %g\n", x, funkcja(x, cos));
 	return 0;
 }

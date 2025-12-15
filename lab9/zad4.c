@@ -6,19 +6,21 @@ double f(double);
 double fp(double);
 double g(double);
 double gp(double);
-int newton(double *x, int n, double eps);
+
+int newton(double *x, int n, double eps, double(*f1)(double), double(*f2)(double));
+
+
 /* start 0.5 -> 0 0.8 -> -1.8954 1.0 -> 1.8954 */
-
-
 int main() {
 	double x0 = 0.8, eps = 0.001;
 	int n = 100;
 	// printf("podaj:\n przybl. dokl. maks.iter.\n");
 	// scanf("%lf %lf %d", &x0,&eps,&n);
+
 	if (!newton(&x0, n, eps, f, fp))
 		printf("rozwiazanie= %lf wart.= %lf\n", x0, f(x0));
 	else
-		printf("Brak zbieznosci\n")
+		printf("Brak zbieznosci\n");
 
 	// x0 = 0.5;
 	x0 = -1.20;
@@ -26,7 +28,7 @@ int main() {
 	if (!newton(&x0, n, eps, g, gp))
 		printf("rozwiazanie= %lf wart.= %lf\n", x0, f(x0));
 	else
-		printf("Brak zbieznosci\n");;
+		printf("Brak zbieznosci\n");
 }
 
 int newton(double *x, int n, double eps, double(*f1)(double), double(*f2)(double)) {
@@ -55,5 +57,5 @@ double g(double x) {
 }
 
 double gp(double x) {
-	return 1/pow(cos(x). 2.0) - 2.0;
+	return 1/pow(cos(x), 2.0) - 2.0;
 }
