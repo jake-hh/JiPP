@@ -19,6 +19,22 @@ void print_student(STUDENT *s) {
 	printf("%s %s %d %s %g\n", s->imie, s->nazwisko, s->rok, s->adres, s->stypendium);
 }
 
+int read_word(FILE *fd, char **word) {
+	char buf[BUF_LEN];
+
+	if (fscanf(fd, "%127s", buf) != 1) return 1;
+
+	*word = (char*)malloc((unsigned)strlen(buf) + 1);
+
+	if (!*word) {
+		printf("error: out of memory");
+		exit(1);
+	}
+
+	strcpy(*word, buf);
+
+	return 0;
+}
 
 // save max_s_pos & max_s
 STUDENT **read_file(char *filename, int *n) {
@@ -31,26 +47,23 @@ STUDENT **read_file(char *filename, int *n) {
 	int i, max_s_pos;
 	double max_s;
 
-	char *buf = (char*)malloc(sizeof(char) * BUF_LEN);
 	STUDENT **t = (STUDENT**)malloc(sizeof(STUDENT*) * MAX_STUDENTS);
+	if (!t) {
+		printf("error: out of memory");
+		exit(1);
+	}
 
 	for (i = 0; i < MAX_STUDENTS; i++) {
 		STUDENT *s = (STUDENT*) malloc(sizeof(STUDENT));
+		if (!s) {
+			printf("error: out of memory");
+			exit(1);
+		}
 
-		if (fscanf(fd, "%127s", buf) != 1) break;
-		s->imie = (char*)malloc((unsigned)strlen(buf) + 1);
-		strcpy(s->imie, buf);
-
-		if (fscanf(fd, "%127s", buf) != 1) break;
-		s->nazwisko = (char*)malloc((unsigned)strlen(buf) + 1);
-		strcpy(s->nazwisko, buf);
-
+		if (read_word(fd, &s->imie)) break;
+		if (read_word(fd, &s->nazwisko)) break;
 		if (fscanf(fd, "%i", &s->rok) != 1) break;
-
-		if (fscanf(fd, "%127s", buf) != 1) break;
-		s->adres = (char*)malloc((unsigned)strlen(buf) + 1);
-		strcpy(s->adres, buf);
-
+		if (read_word(fd, &s->adres)) break;
 		if (fscanf(fd, "%lf", &s->stypendium) != 1) break;
 
 		if(i == 0 || s->stypendium > max_s) {
