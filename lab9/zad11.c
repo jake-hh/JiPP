@@ -22,7 +22,9 @@ STUDENT **read_file(char *filename) {
 		exit(2);
 	}
 
+	// Initialize variables <<<<<<<<<<<
 	int i, len, max_s, max_s_pos;
+
 	char *buf = (char*)malloc(sizeof(char) * BUF_LEN);
 	STUDENT **t = (STUDENT**)malloc(sizeof(STUDENT*) * MAX_STUDENTS);
 
@@ -33,7 +35,7 @@ STUDENT **read_file(char *filename) {
 		buf[len - 1] = '\0';
 		tmp.imie = (char*)malloc(len);
 		strcpy(tmp.imie, buf);
-
+		
 		if (fgets(buf, BUF_LEN, fd) == (char*)NULL) break;
 		len = (unsigned)strlen(buf);
 		buf[len - 1] = '\0';
@@ -51,7 +53,8 @@ STUDENT **read_file(char *filename) {
 
 		if (fgets(buf, BUF_LEN, fd) == (char*)NULL) break;
 		tmp.stypendium = atoi(buf);
-		if(tmp.stypendium > max_s) {
+
+		if(i == 0 || tmp.stypendium > max_s) {
 			max_s = tmp.stypendium;
 			max_s_pos = i;
 		}
