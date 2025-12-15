@@ -7,28 +7,25 @@ double fp(double);
 double g(double);
 double gp(double);
 
+void test_newton(double x0, int n, double eps, char name, double(*f)(double), double(*fp)(double));
 int newton(double *x, int n, double eps, double(*f1)(double), double(*f2)(double));
 
 
-/* start 0.5 -> 0 0.8 -> -1.8954 1.0 -> 1.8954 */
 int main() {
-	double x0 = 0.8, eps = 0.001;
+	double eps = 0.001;
 	int n = 100;
-	// printf("podaj:\n przybl. dokl. maks.iter.\n");
-	// scanf("%lf %lf %d", &x0,&eps,&n);
 
-	if (!newton(&x0, n, eps, f, fp))
-		printf("rozwiazanie= %lf wart.= %lf\n", x0, f(x0));
-	else
-		printf("Brak zbieznosci\n");
+	/* dla f start 0.5 -> 0 0.8 -> -1.8954 1.0 -> 1.8954 */
+	test_newton(0.5, n, eps, 'f', f, fp);
+	test_newton(0.8, n, eps, 'f', f, fp);
+	test_newton(1.0, n, eps, 'f', f, fp);
 
-	// x0 = 0.5;
-	x0 = -1.20;
-
-	if (!newton(&x0, n, eps, g, gp))
-		printf("rozwiazanie= %lf wart.= %lf\n", x0, f(x0));
-	else
-		printf("Brak zbieznosci\n");
+	/* dla g start 0.2 -> 1.5 0.8 -> -1.8954 1.0 -> 1.8954 */
+	test_newton(0.2, n, eps, 'g', g, gp);
+	test_newton(0.8, n, eps, 'g', g, gp);
+	test_newton(1.0, n, eps, 'g', g, gp);
+	test_newton(0.5, n, eps, 'g', g, gp);
+	test_newton(-1.2, n, eps, 'g', g, gp);
 }
 
 int newton(double *x, int n, double eps, double(*f1)(double), double(*f2)(double)) {
@@ -58,4 +55,12 @@ double g(double x) {
 
 double gp(double x) {
 	return 1/pow(cos(x), 2.0) - 2.0;
+}
+
+void test_newton(double x0, int n, double eps, char name, double(*f)(double), double(*fp)(double)) {
+	double start = x0;
+	if (!newton(&x0, n, eps, f, fp))
+		printf("%c: start= %g rozwiazanie= %lf wart.= %lf\n", name, start, x0, f(x0));
+	else
+		printf("%c: start= %g Brak zbieznosci\n", name, start);
 }
