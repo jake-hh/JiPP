@@ -8,28 +8,29 @@ typedef struct CO {
 } COMPLEX;
 
 
-// przerobić program z lab2 !!
 int pierw_complex(double a, double b, double c, COMPLEX *x1, COMPLEX *x2) {
-	if (a == 0.0)
+	if (a == 0.0) {
+		printf("To nie jest rownanie kwadratowe: a = 0\n");
 		return 1;
+	}
 
 	double p = -b / (2 * a);
 	double q = c / a;
 	double delta = p * p - q;
 
 	if (delta >= 0.0) {
-		delta = sqrt(delta);
-		x1->re = p + delta;
+		double r_delta = sqrt(delta);
+		x1->re = p + r_delta;
 		x1->im = 0;
-		x2->re = p - delta;
+		x2->re = p - r_delta;
 		x2->im = 0;
 	}
 	else {
-		delta = sqrt(-delta);
+		double r_delta = sqrt(-delta);
 		x1->re = p;
-		x1->im = delta;
+		x1->im = r_delta;
 		x2->re = p;
-		x2->im = -delta;
+		x2->im = -r_delta;
 	}
 
 	return 0;
@@ -47,7 +48,7 @@ COMPLEX add_complex(COMPLEX a, COMPLEX b) {
 int main() {
 	COMPLEX a, b;
 
-	pierw_complex(1, 4, 4, &a, &b);
+	pierw_complex(4, 4, 4, &a, &b);
 
 	COMPLEX c = add_complex(a, b);
 
