@@ -1,0 +1,20 @@
+Piotr
+Nowak
+2003
+ul. Warszawska 3, Krakow
+25.36
+Maria
+Kowalska
+2004
+ul. Nowa 15, Myslenice
+326.00
+Adam
+Kowalski
+2002
+ul. Dolna 15, Zakopane
+1587.00
+Natalia
+Jezierska
+2002
+ul. Zamojska 5, Katowice
+632.50
