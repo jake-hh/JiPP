@@ -4,13 +4,14 @@
 
 #define MAX_BUFOR 80
 
-// single linked list
+// double linked list
 typedef struct stud {
 	char *imie;
 	char *nazwisko;
 	int rok;
 	char *adres;
 	double stypendium;
+	struct stud *p;
 	struct stud *n;
 } STUDENT;
 
@@ -43,6 +44,7 @@ STUDENT *readList(FILE* plik, int max_n) {
 	STUDENT *head = NULL, *node = NULL, *prev = NULL;
 	char bufor[MAX_BUFOR];
 
+
 	for (int i = 0; i < max_n && fgets(bufor, MAX_BUFOR, plik); i++) {
 
 		node = (STUDENT*)malloc(sizeof(STUDENT));
@@ -53,6 +55,7 @@ STUDENT *readList(FILE* plik, int max_n) {
 			head = node;
 		else
 			prev->n = node;
+		node->p = prev;
 		node->n = NULL;
 
 		node->imie = copyWord(bufor);
@@ -118,7 +121,7 @@ void dispList(STUDENT *head) {
 	}
 
 	for (STUDENT *s = head; s; s = s->n) {
-		printf("%p next:%p\n", s, s->n);
+		printf("prev:%p %p next:%p\n", s->p, s, s->n);
 		printf("  %-10s| %-10s| %4d | %-25s| %7.2lf\n", s->imie, s->nazwisko, s->rok, s->adres, s->stypendium);
 	}
 	printf("dlugosc listy = %d\n\n", lenList(head));
@@ -129,7 +132,10 @@ STUDENT *addHeadList(STUDENT *head, STUDENT *new_s) {
 	if (!new_s)
 		error("pusty student");
 
+	new_s->p = NULL;
 	new_s->n = head;
+	if (head)
+		head->p = new_s;
 	return new_s;
 }
 
@@ -146,6 +152,7 @@ STUDENT *addTailList(STUDENT *head, STUDENT *new_s) {
 		s = s->n;
 
 	new_s->n = NULL;
+	new_s->p = s;
 	s->n = new_s;
 
 	return head;
@@ -158,6 +165,8 @@ STUDENT *remHeadList(STUDENT *head) {
 
 	STUDENT *new_h = head->n;
 	free_s(head);
+	if (new_h)
+		new_h->p = NULL;
 	return new_h;
 }
 
@@ -167,21 +176,18 @@ STUDENT *remTailList(STUDENT *head) {
 		return NULL;
 
 	STUDENT *s = head;
-	STUDENT *prev = NULL;
-	while (s->n) {
-		prev = s;
+	while (s->n)
 		s = s->n;
-	}
 
-	if (prev)
-		prev->n = NULL;
-
-	free_s(s);
-
-	if (prev)
+	if (s->p) {
+		s->p->n = NULL;
+		free_s(s);
 		return head;
-	else
+	}
+	else {
+		free_s(s);
 		return NULL;
+	}
 }
 
 
