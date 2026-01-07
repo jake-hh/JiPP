@@ -1,21 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#pragma warning(disable: 4996 6387)
 
 #define MAX_BUFOR 80
 
+// single linked list
 typedef struct stud {
-	char* imie;
-	char* nazwisko;
+	char *imie;
+	char *nazwisko;
 	int rok;
-	char* adres;
+	char *adres;
 	double stypendium;
-	struct stud* n;
+	struct stud *n;
 } STUDENT;
 
+void error(char *msg) {
+	fprintf(stderr, "error: %s\n", msg);
+	exit(1);
+}
 
-char *copy_word(char *buf) {
+char *copyWord(char *buf) {
 	int len = strlen(buf);
 
 	if (len < 2)
@@ -27,34 +31,40 @@ char *copy_word(char *buf) {
 		buf[len -1] = '\0';
 
 	char *str = (char*)malloc(len);
-	strcpy(str, buf);
+	if (!str)
+		error("out of memory");
 
+	strcpy(str, buf);
 	return str;
 }
 
-STUDENT *read_list1(FILE* plik) {
+
+STUDENT *readList(FILE* plik, int max_n) {
 	STUDENT *head = NULL, *node = NULL, *prev = NULL;
 	char bufor[MAX_BUFOR];
 
-	while (fgets(bufor, MAX_BUFOR, plik)) {
+	for (int i = 0; i < max_n && fgets(bufor, MAX_BUFOR, plik); i++) {
 
 		node = (STUDENT*)malloc(sizeof(STUDENT));
-		if (head == NULL)
+		if (!node)
+			error("out of memory");
+
+		if (!head)
 			head = node;
 		else
 			prev->n = node;
 		node->n = NULL;
 
-		node->imie = copy_word(bufor);
+		node->imie = copyWord(bufor);
 
 		if(!fgets(bufor, MAX_BUFOR, plik)) break;
-		node->nazwisko = copy_word(bufor);
+		node->nazwisko = copyWord(bufor);
 
 		if(!fgets(bufor, MAX_BUFOR, plik)) break;
 		node->rok = atoi(bufor);
 
 		if(!fgets(bufor, MAX_BUFOR, plik)) break;
-		node->adres = copy_word(bufor);
+		node->adres = copyWord(bufor);
 
 		if(!fgets(bufor, MAX_BUFOR, plik)) break;
 		node->stypendium = atof(bufor);
@@ -66,58 +76,143 @@ STUDENT *read_list1(FILE* plik) {
 }
 
 
-STUDENT* max_s1(STUDENT *head) {
-	if (head == NULL)
-		return NULL;
-
-	STUDENT *s, *x;
-	double max = head->stypendium;
-	x = head;
-
-	for (s = head; s != NULL; s = s->n) {
-		if (s->stypendium > max) {
-			max = s->stypendium;
-			x = s;
-		}
-	}
-	return x;
+void free_s(STUDENT *s) {
+	free(s->imie);
+	free(s->nazwisko);
+	free(s->adres);
+	free(s);
 }
 
 
-void dispList1(STUDENT *head) {
-	if (head == NULL) {
-		printf("Lista pusta");
+STUDENT *max_s(STUDENT *head) {
+	if (!head)
+		error("pusta lista");
+
+	STUDENT *s, *max;
+	max = head;
+
+	for (s = head; s; s = s->n)
+		if (s->stypendium > max->stypendium)
+			max = s;
+
+	return max;
+}
+
+
+int lenList(STUDENT *head) {
+	if (!head)
+		return 0;
+
+	STUDENT *s = head;
+	int n = 1;
+
+	while ((s = s->n)) n++;
+	return n;
+}
+
+
+void dispList(STUDENT *head) {
+	if (!head) {
+		printf("Lista pusta\n");
 		return;
 	}
 
-	for (STUDENT *s = head; s != NULL; s = s->n) {
+	for (STUDENT *s = head; s; s = s->n) {
 		printf("%p next:%p\n", s, s->n);
-		printf("%10s |%10s | %4d |%25s | %7.2lf\n", s->imie, s->nazwisko, s->rok, s->adres, s->stypendium);
+		printf("  %-10s| %-10s| %4d | %-25s| %7.2lf\n", s->imie, s->nazwisko, s->rok, s->adres, s->stypendium);
 	}
-	printf("\n");
+	printf("dlugosc listy = %d\n\n", lenList(head));
+}
+
+
+STUDENT *addHeadList(STUDENT *head, STUDENT *new_s) {
+	if (!new_s)
+		error("pusty student");
+
+	new_s->n = head;
+	return new_s;
+}
+
+
+STUDENT *addTailList(STUDENT *head, STUDENT *new_s) {
+	if (!new_s)
+		error("pusty student");
+
+	if (!head)
+		return new_s;
+
+	STUDENT *s = head;
+	while (s->n)
+		s = s->n;
+
+	new_s->n = NULL;
+	s->n = new_s;
+
+	return head;
+}
+
+
+STUDENT *remHeadList(STUDENT *head) {
+	if (!head)
+		return NULL;
+
+	STUDENT *new_h = head->n;
+	free_s(head);
+	return new_h;
+}
+
+
+STUDENT *remTailList(STUDENT *head) {
+	if (!head)
+		return NULL;
+
+	STUDENT *s = head;
+	STUDENT *prev = NULL;
+	while (s->n) {
+		prev = s;
+		s = s->n;
+	}
+
+	if (prev)
+		prev->n = NULL;
+
+	free_s(s);
+
+	if (prev)
+		return head;
+	else
+		return NULL;
 }
 
 
 int main(){
-	STUDENT* head = NULL;
+	FILE *fd = fopen("dane.txt", "r");
+	if (!fd)
+		error("Nie mogę otworzyć pliku dane.txt do odczytu!");
 
-	FILE* fd = fopen("dane.txt", "r");
-	if (fd == NULL) {
-		printf("Nie mogę otworzyć pliku dane.txt do odczytu!\n");
-		exit(2);
-	}
-	head = read_list1(fd);
+	STUDENT *head = readList(fd, 2);
+	dispList(head);
 
-	dispList1(head);
+	STUDENT *ms = max_s(head);
+	printf("Najwyzsze stypendium: %s %.2lf\n\n", ms->nazwisko, ms->stypendium);
 
-	STUDENT* ms = max_s1(head);
-	printf("Najwyzsze stypendium: %s %.2lf\n", ms->nazwisko, ms->stypendium);
-	// addHeadList1();
-	// addTailList1();
-	// dispList1();
-	// printf("dlugosc listy = %d\n", lenList1());
-	// remHeadList1();
-	// dispList1();
-	// remTailList1();
-	// dispList1();
+	STUDENT *s = readList(fd, 1);
+	head = addHeadList(head, s);
+	dispList(head);
+
+	s = readList(fd, 1);
+	head = addTailList(head, s);
+	dispList(head);
+
+	head = remHeadList(head);
+	dispList(head);
+
+	head = remTailList(head);
+	dispList(head);
+
+	head = remTailList(head);
+	dispList(head);
+
+	head = remTailList(head);
+	dispList(head);
 }
