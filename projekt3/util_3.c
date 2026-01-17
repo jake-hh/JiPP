@@ -1,3 +1,4 @@
+// util_3.c
 
 void DodWekt(double *w1, double *w2, double *w3, int n) {
 	for (int i = 0; i < n; i++)

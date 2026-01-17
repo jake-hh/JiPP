@@ -1,15 +1,17 @@
+// util_1.c
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAX_ERR 6
 
 static char *p[] = { "",
-	"zle dane",
-	"otwarcie pliku",
-	"brak pamieci",
 	"Usage:",
+	"otwarcie pliku",
 	"odczyt pliku"
-	"nieznany",
+	"brak pamieci",
+	"zle argumenty funkcji",
+	"nieznany"
 };
 
 void error(int nr, char *str) {

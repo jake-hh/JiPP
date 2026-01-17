@@ -1,3 +1,4 @@
+// util_5.c
 
 void DodMac(double **ma1, double **ma2, double **ma3, int n, int m) {
 	for (int i = 0; i < n; i++)

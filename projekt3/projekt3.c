@@ -2,9 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-//#include <locale.h>
 //#pragma warning(disable: 4996)
 
+/*	Napisz fukcję obiczającą średnią arytmetyczą współrzędnych wektora "x nalezy do R^m".
+	Następnie przyjmując, ze dana macierz A o n wierszach i n kolumnach policz:
+	1) średnią arytmetyczną elementów tej macierzy lezących w l-tym wierszu
+	2) średnią arytemetyczną elementów tej macierzy lezących w l-tej kolumnie
+	3) średnią arytemetyczną elementów tej macierzy lezących na głównej przekątnej
+	4) średnią arytemetyczną elementów tej macierzy lezących pod przekątną
+	5) średnią arytemetyczną elementów tej macierzy z drugiej przekątne
+
+	Uwagi
+	− Wszystkie tablice alokowane dynamicznie.
+	− Dane czytamy z pliku.
+	− Wyniki zapisujemy do pliku i wyświetlamy na monitorze.
+	− Pełna obsługa błędów dla wszystkich funkcji (patrz plik util_1.cpp z laboratorium).
+	− Program podzielony na kilka plików (co najmniej 2 pliki).
+	− Macierz należy wczytać/zapamiętać jako tablicę jednowymiarową.
+		W zależności od wybranej opcji funkcja realizuje wskazane zadanie.
+		W argumentach funkcji możemy stosować parametry domyślne. */
+
+extern double avg_calculate(double *A, int n, int l, int calc_mode);
 extern void error(int, const char *);
 extern int id(int row_len, int row, int col);
 
