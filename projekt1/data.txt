@@ -1,0 +1,21 @@
+Krok		x		f_szereg(x)		f_analityczna(x)		liczba wyrazów szeregu		Powód zatrzymania
+1       -5.000000e-01   -0.6927501860119046      -0.6931471805599453      8          				Osiągnieto żadaną dokładność
+2       -4.210526e-01   -0.5460103878878012      -0.5465437063680699      6          				Osiągnieto żadaną dokładność
+3       -3.421053e-01   -0.4183310298948735      -0.4187103348581849      5          				Osiągnieto żadaną dokładność
+4       -2.631579e-01   -0.3053100528963771      -0.3053816495511817      5          				Osiągnieto żadaną dokładność
+5       -1.842105e-01   -0.2035487933001332      -0.2035989552412394      4          				Osiągnieto żadaną dokładność
+6       -1.052632e-01   -0.1111921076930553      -0.1112256351102242      3          				Osiągnieto żadaną dokładność
+7       -2.631579e-02   -0.02666204986149579     -0.02666824708216129     2          				Osiągnieto żadaną dokładność
+8       5.263158e-02    0.05129513534528848      0.05129329438755069      3          				Osiągnieto żadaną dokładność
+9       1.315789e-01    0.1236817806288575       0.1236139559671766       3          				Osiągnieto żadaną dokładność
+10      2.105263e-01    0.1909848246509261       0.1910552367627092       4          				Osiągnieto żadaną dokładność
+11      2.894737e-01    0.2543127739271868       0.2542341383842409       5          				Osiągnieto żadaną dokładność
+12      3.684211e-01    0.3135579290494458       0.3136575588550416       6          				Osiągnieto żadaną dokładność
+13      4.473684e-01    0.3698906711796181       0.3697470255060852       7          				Osiągnieto żadaną dokładność
+14      5.263158e-01    0.4226229411626986       0.4228568508200336       8          				Osiągnieto żadaną dokładność
+15      6.052632e-01    0.473053971832761        0.4732877044469255       10         				Osiągnięto maksymalną ilość iteracji i maksymalną precyzję
+16      6.842105e-01    0.5204364605928243       0.5212969236332862       10         				Osiągnięto maksymalną ilość iteracji
+17      7.631579e-01    0.5643675686652856       0.5671064596645804       10         				Osiągnięto maksymalną ilość iteracji
+18      8.421053e-01    0.6031500987785801       0.6109090823229734       10         				Osiągnięto maksymalną ilość iteracji
+19      9.210526e-01    0.6328937476208996       0.6528732814220055       10         				Osiągnięto maksymalną ilość iteracji
+20      1.000000e+00    0.6456349206349207       0.6931471805599453       10         				Osiągnięto maksymalną ilość iteracji
