@@ -13,7 +13,7 @@
 
 extern void error(int nr, char *msg);
 void clear_stdin();
-void print_table(long double a, long double b, long divs, long double delta_x, long double delta_y, int n);
+void print_table(long double a, long double b, long n, long double delta_x, long double delta_y, int m);
 
 enum STOP_REASON {
 	UNKNOWN,
@@ -23,7 +23,7 @@ enum STOP_REASON {
 };
 
 
-long double ff(long double x, long double delta_y, int n, int *stop_res, int *iterations) {
+long double ff(long double x, long double delta_y, int m, int *stop_res, int *iterations) {
     long double y = 0;
     long double element;
 
@@ -39,15 +39,15 @@ long double ff(long double x, long double delta_y, int n, int *stop_res, int *it
         x_i *= x;
         sign *= -1;
     }
-	while (fabs(element) > delta_y && i < n);
+	while (fabs(element) > delta_y && i < m);
 
     if (fabs(element) <= delta_y)
         *stop_res = MAX_PRECISION;
 
-    if (i >= n)
+    if (i >= m)
         *stop_res = MAX_N;
 
-    if (i >= n && fabs(element) <= delta_y)
+    if (i >= m && fabs(element) <= delta_y)
         *stop_res = BOTH_MAX;
 
     *iterations = i;
@@ -82,17 +82,18 @@ int main() {
     clear_stdin();
 
 
-    long divs;
+    long n;
     printf("Podaj liczbę przedziałów 𝑛 ∈ [2, %ld) ∩ ℤ: ", LONG_MAX);
-    if (scanf("%ld", &divs) != 1 || divs < 2)
+    if (scanf("%ld", &n) != 1 || n < 2)
         error(ERR_USER_INPUT, "");
     clear_stdin();
 
 
+    long double delta_x;
     printf("Obliczam Δx = (b - a) / 𝑛\n");
-    if ((b - a) / (long double) (divs-1) < LDBL_EPSILON)
+    if ((b - a) / (long double) (n-1) < LDBL_EPSILON)
         error(ERR_USER_INPUT, "Zbyt gęsty podział dla zadanego zakresu");
-    long double delta_x = (b - a) / (long double) (divs-1);
+    delta_x = (b - a) / (long double) (n-1);
 
 
 	long double delta_y;
@@ -102,14 +103,14 @@ int main() {
     clear_stdin();
 
 
-    int n;
+    int m;
     printf("Podaj maksymalną ilość iteracji 𝑀 ∈ [1, %d) ∩ ℤ: ", INT_MAX);
-    if (scanf("%d", &n) != 1 || n < 1)
+    if (scanf("%d", &m) != 1 || m < 1)
         error(ERR_USER_INPUT, "");
     clear_stdin();
 
 
-	print_table(a, b, divs, delta_x, delta_y, n);
+	print_table(a, b, n, delta_x, delta_y, m);
 }
 
 
@@ -118,7 +119,7 @@ void clear_stdin() {
 }
 
 
-void print_table(long double a, long double b, long divs, long double delta_x, long double delta_y, int n) {
+void print_table(long double a, long double b, long n, long double delta_x, long double delta_y, int m) {
 
     FILE *file = fopen(FILENAME, "w");
     if (!file)
@@ -131,12 +132,12 @@ void print_table(long double a, long double b, long divs, long double delta_x, l
 
     long double x = a;
 
-    for (long long i = 1; i <= divs; i++) {
+    for (long long i = 1; i <= n; i++) {
         int stop_res = UNKNOWN;
         int iterations = 0;
         char *stop_msg;
 
-        long double f_x = ff(x, delta_y, n, &stop_res, &iterations);
+        long double f_x = ff(x, delta_y, m, &stop_res, &iterations);
 
         switch (stop_res) {
             case MAX_N:
@@ -153,12 +154,12 @@ void print_table(long double a, long double b, long divs, long double delta_x, l
                 char err_msg[256];
                 snprintf(err_msg, sizeof err_msg, "%s\n"
                         "Used iterations = %d\n"
-                        "n = %d\n"
+                        "m = %d\n"
                         "x = %.10Lg\n"
                         "F(x) = %.10Lg\t->\tln(1+x) = %.10Lg\n"
-                        "divs = %ld\n"
+                        "n = %ld\n"
                         "Delta x = %.10Lg\n"
-                        "Delta y = %.10Lg\n\n", stop_msg, iterations, n, x, f_x, logl(1+x), divs, delta_x, delta_y);
+                        "Delta y = %.10Lg\n\n", stop_msg, iterations, m, x, f_x, logl(1+x), n, delta_x, delta_y);
                 error(ERR_UNKNOWN, err_msg);
         }
 

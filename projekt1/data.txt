@@ -1,4 +1,4 @@
-krok    x               f_szereg(x)              f_analit(x)              liczba wyrazów Powód zatrzymania
+krok    x               f_szereg(x)              f_analit(x)              liczba wyrazów  Powód zatrzymania
 1       -5.000000e-01   -0.6927501860119046      -0.6931471805599453      8               Osiągnieto żadaną dokładność
 2       -4.210526e-01   -0.5460103878878012      -0.5465437063680699      6               Osiągnieto żadaną dokładność
 3       -3.421053e-01   -0.4183310298948735      -0.4187103348581849      5               Osiągnieto żadaną dokładność
