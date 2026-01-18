@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_ERR 3
+#define MAX_ERR 4
 
 static char *p[] = { "",
 	"Usage:",
