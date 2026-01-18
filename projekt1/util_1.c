@@ -1,15 +1,12 @@
-// util_1.c
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_ERR 6
+#define MAX_ERR 3
 
 static char *p[] = { "",
 	"Usage:",
 	"błędne dane",
 	"otwarcie pliku",
-	"zle argumenty funkcji",
 	"nieznany"
 };
 
