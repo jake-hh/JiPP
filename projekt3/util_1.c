@@ -7,17 +7,17 @@
 
 static char *p[] = { "",
 	"Usage:",
-	"otwarcie pliku",
-	"odczyt pliku"
-	"brak pamięci",
-	"złe argumenty funkcji",
-	"wprowadzono złe dane",
-	"nieznany"
+	"Otwarcie pliku",
+	"Odczyt pliku",
+	"Brak pamięci",
+	"Złe argumenty funkcji",
+	"Wprowadzono złe dane",
+	"Nieznany"
 };
 
 void error(int nr, char *str) {
 	int k = nr >= MAX_ERR ? MAX_ERR : nr;
 
-	fprintf(stderr, "Blad(%d) - %s %s\n", nr, p[k], str);
+	fprintf(stderr, "Blad(%d) - %s: %s\n", nr, p[k], str);
 	exit(nr);
 }

@@ -23,7 +23,7 @@
 
 extern void error(int, const char *);
 extern int id(int row_len, int row, int col);
-extern int get_natural_number(char *msg, int max);
+extern int get_integer(char *msg, int min, int max);
 
 extern double *DajWekt(int n);
 extern void ZwrocWekt(double *we);
@@ -54,23 +54,25 @@ void argumenty(int, char **);
 #define EXIT						6
 #define N_AVG						6
 
+void check(int l, int n) {
+	if (l < 0 || l >= n)
+		error(5, "l poza zakresem");
+}
+
 double avg_calculate(double *A, int n, int l, int calc_mode) {
 	if (n <= 0)
 		error(5, "wymiar n macierzy musi być dodatni");
 
-	if (l < 0 || l >= n)
-		error(5, "l poza zakresem");
-
 	switch (calc_mode) {
 		case AVG_VECTOR:
-			if (l != 1)
-				error(5, "wysokość macierzy (wektor) musi być 1");
 			return avg_vector(A, n);
 
 		case AVG_MATRIX_ROW:
+			check(l, n);
 			return avg_row(A, n, l);
 
 		case AVG_MATRIX_COL:
+			check(l, n);
 			return avg_col(A, n, l);
 
 		case AVG_MATRIX_DIAGONAL:
@@ -99,22 +101,26 @@ void abc(double *ma, int n, double *r, int m) {
 		"6 - koniec\n\n");
 
 	do {
-		int op = get_natural_number("Podaj numer operacji", N_AVG);
-
+		double avg;
 		int l = 0;
+		int op = get_integer("Podaj numer operacji", 0, N_AVG);
 
-		switch (op) {
-			case AVG_MATRIX_ROW:
-				l = get_natural_number("Podaj numer wiersza l", n);
-				break;
-			case AVG_MATRIX_COL:
-				l = get_natural_number("Podaj numer kolumny l", n);
-				break;
-			case EXIT:
-				return;
+		if (op == EXIT)
+			return;
+
+		else if (op == AVG_VECTOR)
+			avg = avg_calculate(r, m, 0, op);
+
+		else {
+			if (op == AVG_MATRIX_ROW)
+				l = get_integer("Podaj numer wiersza l", 1, n);
+
+			if (op == AVG_MATRIX_COL)
+				l = get_integer("Podaj numer kolumny l", 1, n);
+
+			avg = avg_calculate(ma, n, l - 1, op);
 		}
 
-		double avg = avg_calculate(r, m, l, op);
 		printf("Średnia elementów: %g\n", avg);
 	}
 	while(1);
