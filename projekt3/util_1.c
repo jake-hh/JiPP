@@ -3,14 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_ERR 6
+#define MAX_ERR 7
 
 static char *p[] = { "",
 	"Usage:",
 	"otwarcie pliku",
 	"odczyt pliku"
-	"brak pamieci",
-	"zle argumenty funkcji",
+	"brak pamięci",
+	"złe argumenty funkcji",
+	"wprowadzono złe dane",
 	"nieznany"
 };
 

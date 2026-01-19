@@ -23,6 +23,7 @@
 
 extern void error(int, const char *);
 extern int id(int row_len, int row, int col);
+extern int get_natural_number(char *msg, int max);
 
 extern double *DajWekt(int n);
 extern void ZwrocWekt(double *we);
@@ -50,6 +51,8 @@ void argumenty(int, char **);
 #define AVG_MATRIX_DIAGONAL			3
 #define AVG_MATRIX_BELOW_DIAGONAL	4
 #define AVG_MATRIX_SECOND_DIAGONAL	5
+#define EXIT						6
+#define N_AVG						6
 
 double avg_calculate(double *A, int n, int l, int calc_mode) {
 	if (n <= 0)
@@ -85,6 +88,37 @@ double avg_calculate(double *A, int n, int l, int calc_mode) {
 	}
 }
 
+void abc(double *ma, int n, double *r, int m) {
+	printf("\n=== Rodzaj operacji ===\n"
+		"0 - średnia współrzędnych wektora R\n"
+		"1 - średnia elementów macierzy M leżących w l-tym wierzu\n"
+		"2 - średnia elementów macierzy M leżących w l-tej kolumnie\n"
+		"3 - średnia elementów macierzy M leżących na głównej przekątnej\n"
+		"4 - średnia elementów macierzy M leżących pod główną przekątną\n"
+		"5 - średnia elementów macierzy M leżących na drugiej przekątnej\n"
+		"6 - koniec\n\n");
+
+	do {
+		int op = get_natural_number("Podaj numer operacji", N_AVG);
+
+		int l = 0;
+
+		switch (op) {
+			case AVG_MATRIX_ROW:
+				l = get_natural_number("Podaj numer wiersza l", n);
+				break;
+			case AVG_MATRIX_COL:
+				l = get_natural_number("Podaj numer kolumny l", n);
+				break;
+			case EXIT:
+				return;
+		}
+
+		double avg = avg_calculate(r, m, l, op);
+		printf("Średnia elementów: %g\n", avg);
+	}
+	while(1);
+}
 
 int main(int argc, char *argv[]) {
 	FILE *fd;
@@ -106,16 +140,13 @@ int main(int argc, char *argv[]) {
 	CzytMac(fd, ma, n, n);
 	CzytWekt(fd, r, m);
 
-	// -- Calculate --
-	double ar = avg_calculate(ma, n, 1, AVG_MATRIX_ROW);
-	double ac = avg_calculate(ma, n, 2, AVG_MATRIX_COL);
-
-	// printf("Suma elementów na przękątnych spełniającyhc warunki: %g\n", sum);
 	printf("\nMacierz M(%dx%d)\n", n, n);
 	PiszMac(stdout, ma, n, n);
 	printf("\nWektor R(%d)\n", m);
 	PiszWekt(stdout, r, m);
 
+	// -- Calculate --
+	abc(ma, n, r, m);
 
 	// -- Free --
 	ZwrocMac(ma);

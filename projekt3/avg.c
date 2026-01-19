@@ -1,8 +1,5 @@
 // avg.c
 
-#include <stdlib.h>
-
-
 int id(int row_len, int row, int col) {
 	return row_len * row + col;
 }
