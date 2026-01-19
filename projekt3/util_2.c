@@ -11,9 +11,13 @@ double *DajWekt(int n) {
 	double *w;
 
 	if (!(w = (double*)malloc((unsigned)n * sizeof(double))))
-		error(3, "malloc wektor");
+		error(3, "brak pamieci");
 
 	return w;
+}
+
+void ZwrocWekt(double *we) {
+	free(we);
 }
 
 void CzytWekt(FILE *fd, double *we, int n) {
@@ -21,7 +25,7 @@ void CzytWekt(FILE *fd, double *we, int n) {
 	for (int i = 0; i < n; i++) {
 
 		if (fscanf(fd, "%lf", &we[i]) != 1) {
-			char *err = (char*)malloc((unsigned)25);
+			char *err = (char*)malloc((unsigned)64);
 			sprintf(err, "element nr %d\n", i);
 			error(5, err);
 		}
@@ -30,11 +34,8 @@ void CzytWekt(FILE *fd, double *we, int n) {
 
 void PiszWekt(FILE *fw, double *we, int n) {
 
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++)
 		fprintf(fw, "%g ", we[i]);
 
-		if (!((i + 1) % 5))
-			fprintf(fw, "\n");
-	}
 	fprintf(fw, "\n");
 }

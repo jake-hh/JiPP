@@ -5,40 +5,37 @@
 #pragma warning(disable: 4996)
 
 extern void error(int, const char *);
+extern int id(int row_len, int row, int col);
+extern double *DajWekt(int n);
+extern void ZwrocWekt(double *we);
 
 
 double *DajMac(int n, int m) {
-	double *ma;
-
-    if (!(ma = (double*)malloc(n * m * sizeof(double))))
-		error(3, "malloc macierz");
-
-	return ma;
+	return DajWekt(n * m);
 }
-
 
 void ZwrocMac(double *ma) {
-	free(ma);
+	ZwrocWekt(ma);
 }
 
+void CzytMac(FILE *fd, double *ma, int n, int m) {
 
-void CzytMac(FILE *fd, double **ma, int n, int m) {
+	for (int r = 0; r < n; r++)
+		for (int c = 0; c < m; c++)
+			if (fscanf(fd, "%lf", &ma[id(n, r, c)]) != 1) {
 
-	for (int i = 0; i < n * m; i++)
-
-			if (fscanf(fd, "%lf", &ma[i]) != 1) {
-				char *err = (char*)malloc((unsigned)25);
-				sprintf(err, "element nr %d %d\n", i / n, i % m);
+				char *err = (char*)malloc((unsigned)64);
+				sprintf(err, "element nr %d %d\n", r, c);
 				error(5, err);
 			}
 }
 
+void PiszMac(FILE *fw, double *ma, int n, int m) {
 
-void PiszMac(FILE *fw, double **ma, int n, int m) {
-	for (int i = 0; i < n * m; i++) {
-		fprintf(fw, "%g ", ma[i][j]);
+	for (int r = 0; r < n; r++) {
+		for (int c = 0; c < m; c++)
+			fprintf(fw, "%g ", ma[id(n, r, c)]);
 
 		fprintf(fw, "\n");
 	}
-	fprintf(fw, "\n");
 }
