@@ -27,6 +27,7 @@ void CzytWekt(FILE *fd, double *we, int n) {
 		if (fscanf(fd, "%lf", &we[i]) != 1) {
 			char *err = (char*)malloc((unsigned)64);
 			sprintf(err, "element nr %d\n", i);
+			ZwrocWekt(we);
 			error(3, err);
 		}
 	}
