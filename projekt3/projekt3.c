@@ -59,7 +59,7 @@ void check(int l, int n) {
 		error(5, "l poza zakresem");
 }
 
-double avg_calculate(double *A, int n, int l, int calc_mode) {
+double avg_calculate(int calc_mode, double *A, int n, int l = 0) {
 	if (n <= 0)
 		error(5, "wymiar n macierzy musi być dodatni");
 
@@ -109,7 +109,7 @@ void abc(double *ma, int n, double *r, int m) {
 			return;
 
 		else if (op == AVG_VECTOR)
-			avg = avg_calculate(r, m, 0, op);
+			avg = avg_calculate(op, r, m);
 
 		else {
 			if (op == AVG_MATRIX_ROW)
@@ -118,7 +118,7 @@ void abc(double *ma, int n, double *r, int m) {
 			if (op == AVG_MATRIX_COL)
 				l = get_integer("Podaj numer kolumny l", 1, n);
 
-			avg = avg_calculate(ma, n, l - 1, op);
+			avg = avg_calculate(op, ma, n, l - 1);
 		}
 
 		printf("Średnia elementów: %g\n", avg);
