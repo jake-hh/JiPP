@@ -135,8 +135,8 @@ int main(int argc, char *argv[]) {
 	if (!(fd = fopen(argv[1], "r"))) error(2, "dane");
 
 	fscanf(fd, "%d %d", &n, &m);
-	if (n < 1) error(1, "n < 1");
-	if (m < 1) error(1, "m < 1");
+	if (n < 1) error(3, "n < 1");
+	if (m < 1) error(3, "m < 1");
 
 	// -- Dynamically allocate memory --
 	double *ma = DajMac(n, n);
@@ -168,10 +168,10 @@ void argumenty(int argc, char *argv[]) {
 		len = strlen(argv[0]) + 19;
 
 		if (!(usage = (char*)malloc((unsigned)len * sizeof(char))))
-			error(3, "tablica usage");
+			error(4, "tablica usage");
 
 		strcpy(usage, argv[0]);
 		strcat(usage, " file_in");
-		error(4, usage);
+		error(1, usage);
 	}
 }

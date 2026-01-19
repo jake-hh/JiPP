@@ -11,7 +11,7 @@ double *DajWekt(int n) {
 	double *w;
 
 	if (!(w = (double*)malloc((unsigned)n * sizeof(double))))
-		error(3, "brak pamieci");
+		error(4, "brak pamieci");
 
 	return w;
 }
@@ -27,7 +27,7 @@ void CzytWekt(FILE *fd, double *we, int n) {
 		if (fscanf(fd, "%lf", &we[i]) != 1) {
 			char *err = (char*)malloc((unsigned)64);
 			sprintf(err, "element nr %d\n", i);
-			error(5, err);
+			error(3, err);
 		}
 	}
 }

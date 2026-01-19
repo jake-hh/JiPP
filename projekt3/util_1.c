@@ -6,13 +6,13 @@
 #define MAX_ERR 7
 
 static char *p[] = { "",
-	"Usage:",
-	"Otwarcie pliku",
-	"Odczyt pliku",
-	"Brak pamięci",
-	"Złe argumenty funkcji",
-	"Wprowadzono złe dane",
-	"Nieznany"
+	/* 1 */ "Usage:",
+	/* 2 */ "Otwarcie pliku",
+	/* 3 */ "Odczyt pliku",
+	/* 4 */ "Brak pamięci",
+	/* 5 */ "Złe argumenty funkcji",
+	/* 6 */ "Wprowadzono złe dane",
+	/* 7 */ "Nieznany"
 };
 
 void error(int nr, char *str) {

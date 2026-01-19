@@ -26,7 +26,7 @@ void CzytMac(FILE *fd, double *ma, int n, int m) {
 
 				char *err = (char*)malloc((unsigned)64);
 				sprintf(err, "element nr %d %d\n", r, c);
-				error(5, err);
+				error(3, err);
 			}
 }
 
