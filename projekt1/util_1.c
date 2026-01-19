@@ -4,10 +4,10 @@
 #define MAX_ERR 4
 
 static char *p[] = { "",
-	"Usage:",
-	"błędne dane",
-	"otwarcie pliku",
-	"nieznany"
+	/* 1 */ "Usage:",
+	/* 2 */ "Błędne dane",
+	/* 3 */ "Otwarcie pliku",
+	/* 4 */ "Nieznany"
 };
 
 void error(int nr, char *msg) {
