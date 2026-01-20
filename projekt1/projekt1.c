@@ -91,9 +91,9 @@ int main() {
 
     long double delta_x;
     printf("\nObliczam Δx = (c - b) / 𝑛\n");
-    if ((c - b) / (long double) (n-1) < 1e-14)
+    if ((c - b) / (long double) n < 1e-14)
         error(ERR_USER_INPUT, "Zbyt gęsty podział dla zadanego zakresu");
-    delta_x = (c - b) / (long double) (n-1);
+    delta_x = (c - b) / (long double) n;
     printf("Δx = %Lg\n\n", delta_x);
 
 
@@ -133,7 +133,7 @@ void print_table(long double a, long double b, long double c, long n, long doubl
 
     long double x = b;
 
-    for (long long i = 1; i <= n; i++) {
+    for (long long i = 1; i <= n + 1; i++) {
         int stop_res = UNKNOWN;
         int iterations = 0;
         char *stop_msg;
