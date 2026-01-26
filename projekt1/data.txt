@@ -1,22 +1,12 @@
 krok    x               f_szereg(x)              f_analit(x)              liczba wyrazów  Powód zatrzymania
-1       -1.000000e+01   0.0009765625008147402    0.0009765625             36              Osiągnieto żadaną dokładność
-2       -9.000000e+00   0.001953125000562959     0.001953125              34              Osiągnieto żadaną dokładność
-3       -8.000000e+00   0.003906250000345396     0.00390625               32              Osiągnieto żadaną dokładność
-4       -7.000000e+00   0.007812499998769498     0.0078125                29              Osiągnieto żadaną dokładność
-5       -6.000000e+00   0.01562499999938489      0.015625                 27              Osiągnieto żadaną dokładność
-6       -5.000000e+00   0.03124999999976196      0.03125                  25              Osiągnieto żadaną dokładność
-7       -4.000000e+00   0.06250000000053228      0.0625                   22              Osiągnieto żadaną dokładność
-8       -3.000000e+00   0.1249999999991456       0.125                    19              Osiągnieto żadaną dokładność
-9       -2.000000e+00   0.2500000000006732       0.25                     16              Osiągnieto żadaną dokładność
-10      -1.000000e+00   0.4999999999999353       0.5                      13              Osiągnieto żadaną dokładność
-11      0.000000e+00    1                        1                        1               Osiągnieto żadaną dokładność
-12      1.000000e+00    1.999999999999929        2                        13              Osiągnieto żadaną dokładność
-13      2.000000e+00    3.999999999999214        4                        16              Osiągnieto żadaną dokładność
-14      3.000000e+00    7.999999999998956        8                        19              Osiągnieto żadaną dokładność
-15      4.000000e+00    15.99999999999933        16                       22              Osiągnieto żadaną dokładność
-16      5.000000e+00    31.99999999999968        32                       25              Osiągnieto żadaną dokładność
-17      6.000000e+00    63.99999999999915        64                       27              Osiągnieto żadaną dokładność
-18      7.000000e+00    127.9999999999983        128                      29              Osiągnieto żadaną dokładność
-19      8.000000e+00    255.9999999999995        256                      32              Osiągnieto żadaną dokładność
-20      9.000000e+00    511.9999999999993        512                      34              Osiągnieto żadaną dokładność
-21      1.000000e+01    1023.999999999999        1024                     36              Osiągnieto żadaną dokładność
+1       -2.000000e+00   0.2516597365031884       0.25                     6               Osiągnięto maksymalną ilość iteracji
+2       -1.600000e+00   0.3302359452468041       0.3298769776932235       6               Osiągnięto maksymalną ilość iteracji
+3       -1.200000e+00   0.4353247371062268       0.435275281648062        6               Osiągnięto maksymalną ilość iteracji i maksymalną precyzję
+4       -8.000000e-01   0.574311788018622        0.5743491774985174       5               Osiągnieto żadaną dokładność
+5       -4.000000e-01   0.7578713300400847       0.757858283255199        4               Osiągnieto żadaną dokładność
+6       -1.110223e-16   0.9999999999999999       0.9999999999999999       1               Osiągnieto żadaną dokładność
+7       4.000000e-01    1.319493600397138        1.319507910772894        4               Osiągnieto żadaną dokładność
+8       8.000000e-01    1.741057312253996        1.741101126592248        5               Osiągnieto żadaną dokładność
+9       1.200000e+00    2.297335801877103        2.29739670999407         6               Osiągnięto maksymalną ilość iteracji i maksymalną precyzję
+10      1.600000e+00    3.030959079354747        3.031433133020796        6               Osiągnięto maksymalną ilość iteracji
+11      2.000000e+00    3.997648969517257        4                        6               Osiągnięto maksymalną ilość iteracji
