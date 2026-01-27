@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "menu.h"
 
 #define DATA_FILE_NAME "dane.txt"
 
@@ -20,11 +21,39 @@ extern char *get_string(char *msg, int cap);
 extern int get_integer(char *msg, int min, int max);
 
 
-Student *read_list(FILE* plik) {
+void print_menu(Student *head) {
+	printf("\n[Menu]\n"
+			"0 - Quit\n"
+			"1 - Add student\n"
+			"2 - Remove student\n"
+			"3 - Find student by surname\n"
+			"4 - Display list\n"
+			"5 - Count students in list\n"
+			"6 - Drop students list\n"
+			"7 - Save to binary file\n");
+
+	if (!head)
+		printf("8 - Load from binary file\n"
+				"9 - Load from text file\n");
+
+	printf("\n");
+}
+
+
+int get_menu_size(Student *head) {
+	return head ? NO_READ_MENU_SIZE : MENU_SIZE;
+}
+
+
+Student *read_list() {
+	FILE *fd = fopen(DATA_FILE_NAME, "r");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
+
 	Student *head = NULL, *node = NULL, *prev = NULL;
 	char bufor[MAX_BUFFOR];
 
-	while (fgets(bufor, MAX_BUFFOR, plik)) {
+	while (fgets(bufor, MAX_BUFFOR, fd)) {
 
 		node = (Student*)malloc(sizeof(Student));
 		if (!node)
@@ -38,15 +67,17 @@ Student *read_list(FILE* plik) {
 
 		node->name = copy_word(bufor);
 
-		if(!fgets(bufor, MAX_BUFFOR, plik)) break;
+		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
 		node->surname = copy_word(bufor);
 
-		if(!fgets(bufor, MAX_BUFFOR, plik)) break;
+		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
 		node->year = atoi(bufor);
 
 		prev = node;
 	}
 
+	fclose(fd);
+	printf("Wczytano listę z pliku tekstowego\n");
 	return head;
 }
 
@@ -85,6 +116,11 @@ int length_list(Student *head) {
 }
 
 
+void display_list_length(Student *head) {
+	printf("dlugosc listy = %d\n\n", length_list(head));
+}
+
+
 void display_student(Student *s) {
 	if (s)
 		printf("  %-10s| %-10s| %4d\n", s->name, s->surname, s->year);
@@ -99,14 +135,14 @@ void display_list(Student *head) {
 		return;
 	}
 	else {
-		printf("\n[Lista]\n");
+		printf("\n[Lista studentów]\n");
 	}
 
 	for (Student *s = head; s; s = s->next) {
 		printf("%p next:%p\n", s, s->next);
 		display_student(s);
 	}
-	printf("dlugosc listy = %d\n\n", length_list(head));
+	display_list_length(head);
 }
 
 
@@ -147,27 +183,58 @@ void free_list(Student *head) {
 
 
 int main(){
-	FILE *fd = fopen(DATA_FILE_NAME, "r");
-	if (!fd)
-		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
+	Student *head = NULL;
 
-	Student *head = read_list(fd);
-	display_list(head);
+	while (1) {
+		print_menu(head);
+		Menu m = get_integer("Podaj nr operacji", 0, MENU_SIZE - 1);
+		printf("\n");
 
-	Student *found = find_student_by_surname(head, "Krupi");
+		switch (m) {
+			case PUSH:
+				head = push_student(head, get_student());
+				break;
 
-	printf("Znaleziono:\n");
-	display_student(found);
+			case POP:
+				Student *to_remove = pop_student(&head);
+				printf("Usunięto:\n");
+				display_student(to_remove);
+				free_student(to_remove);
+				break;
 
-	head = push_student(head, get_student());
-	display_list(head);
+			case FIND_BY_SURNAME:
+				Student *found = find_student_by_surname(head, "Krupi");
+				printf("Znaleziono:\n");
+				display_student(found);
+				break;
 
-	Student *s = pop_student(&head);
-	printf("Usunięto:\n");
-	display_student(s);
-	free_student(s);
-	display_list(head);
+			case DISPLAY_LIST:
+				display_list(head);
+				break;
 
-	fclose(fd);
-	return 0;
+			case DISPLAY_LENGTH:
+				display_list_length(head);
+				break;
+
+			case DROP_LIST:
+				free_list(head);
+				head = NULL;
+				break;
+
+			case SAVE_BIN_FILE:
+				printf("todo");
+				break;
+
+			case READ_BIN_FILE:
+				printf("todo");
+				break;
+
+			case READ_TEXT_FILE:
+				head = read_list();
+				break;
+
+			default:
+				return 0;
+		}
+	}
 }
