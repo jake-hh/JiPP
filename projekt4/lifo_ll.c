@@ -12,7 +12,7 @@ typedef struct stud {
 	char *surname;
 	int year;
 	struct stud *next;
-} STUDENT;
+} Student;
 
 extern void error(int nr, const char *str);
 extern char *copy_word(char *buf);
@@ -20,13 +20,13 @@ extern char *get_string(char *msg, int cap);
 extern int get_integer(char *msg, int min, int max);
 
 
-STUDENT *read_list(FILE* plik) {
-	STUDENT *head = NULL, *node = NULL, *prev = NULL;
+Student *read_list(FILE* plik) {
+	Student *head = NULL, *node = NULL, *prev = NULL;
 	char bufor[MAX_BUFFOR];
 
 	while (fgets(bufor, MAX_BUFFOR, plik)) {
 
-		node = (STUDENT*)malloc(sizeof(STUDENT));
+		node = (Student*)malloc(sizeof(Student));
 		if (!node)
 			error(4, "malloc student");
 
@@ -51,9 +51,9 @@ STUDENT *read_list(FILE* plik) {
 }
 
 
-STUDENT *get_student() {
+Student *get_student() {
 	printf("\nDodawanie studenta\n");
-	STUDENT *node = (STUDENT*)malloc(sizeof(STUDENT));
+	Student *node = (Student*)malloc(sizeof(Student));
 	if (!node)
 		error(4, "malloc student");
 
@@ -64,7 +64,7 @@ STUDENT *get_student() {
 }
 
 
-STUDENT *find_student_by_surname(STUDENT *head, char *surname) {
+Student *find_student_by_surname(Student *head, char *surname) {
 	// while (head && strcmp(head->surname, surname))
 	while (head && !strstr(head->surname, surname))
 		head = head->next;
@@ -73,7 +73,7 @@ STUDENT *find_student_by_surname(STUDENT *head, char *surname) {
 }
 
 
-int length_list(STUDENT *head) {
+int length_list(Student *head) {
 	int len = 0;
 
 	while (head) {
@@ -85,7 +85,7 @@ int length_list(STUDENT *head) {
 }
 
 
-void display_student(STUDENT *s) {
+void display_student(Student *s) {
 	if (s)
 		printf("  %-10s| %-10s| %4d\n", s->name, s->surname, s->year);
 	else
@@ -93,7 +93,7 @@ void display_student(STUDENT *s) {
 }
 
 
-void display_list(STUDENT *head) {
+void display_list(Student *head) {
 	if (!head) {
 		printf("Lista pusta\n");
 		return;
@@ -102,7 +102,7 @@ void display_list(STUDENT *head) {
 		printf("\n[Lista]\n");
 	}
 
-	for (STUDENT *s = head; s; s = s->next) {
+	for (Student *s = head; s; s = s->next) {
 		printf("%p next:%p\n", s, s->next);
 		display_student(s);
 	}
@@ -110,7 +110,7 @@ void display_list(STUDENT *head) {
 }
 
 
-STUDENT *push_student(STUDENT *head, STUDENT *new_s) {
+Student *push_student(Student *head, Student *new_s) {
 	if (!new_s)
 		error(5, "pusty student");
 
@@ -119,28 +119,28 @@ STUDENT *push_student(STUDENT *head, STUDENT *new_s) {
 }
 
 
-STUDENT *pop_student(STUDENT **head) {
+Student *pop_student(Student **head) {
 	if (!head)
 		error(5, "ptr to ptr to head is null");
 
 	if (!*head)
 		return NULL;
 
-	STUDENT *s = *head;
+	Student *s = *head;
 	*head = (*head)->next;
 	s->next = NULL;
 	return s;
 }
 
 
-void free_student(STUDENT *s) {
+void free_student(Student *s) {
 	free(s->name);
 	free(s->surname);
 	free(s);
 }
 
 
-void free_list(STUDENT *head) {
+void free_list(Student *head) {
 	while (head)
 		free_student(pop_student(&head));
 }
@@ -151,10 +151,10 @@ int main(){
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
 
-	STUDENT *head = read_list(fd);
+	Student *head = read_list(fd);
 	display_list(head);
 
-	STUDENT *found = find_student_by_surname(head, "Krupi");
+	Student *found = find_student_by_surname(head, "Krupi");
 
 	printf("Znaleziono:\n");
 	display_student(found);
@@ -162,7 +162,7 @@ int main(){
 	head = push_student(head, get_student());
 	display_list(head);
 
-	STUDENT *s = pop_student(&head);
+	Student *s = pop_student(&head);
 	printf("Usunięto:\n");
 	display_student(s);
 	free_student(s);
