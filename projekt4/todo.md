@@ -1,3 +1,7 @@
+# TODO
+* fix: czyść brudy w stdin
+* fix: pytaj o string do szukania
+
 Zaimplementuj stos (LIFO) i kolejkę (FIFO) w dwóch wariantach - za pomocą listy oraz za pomocą tablic.
 
 Napisz menu  oraz odpowiednie funkcje pozwalające na:
