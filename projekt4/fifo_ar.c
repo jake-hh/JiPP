@@ -63,9 +63,9 @@ Student *get_student() {
 
 
 Student *find_student_by_surname(Student_list list, char *surname) {
-	// strcmp(head->surname, surname)
+	// !strcmp(list.values[i]->surname, surname)
 	for (int i = 0; i < list.length; i++)
-		if (!strstr(list.values[i]->surname, surname))
+		if (strstr(list.values[i]->surname, surname))
 			return list.values[i];
 
 	return NULL;
