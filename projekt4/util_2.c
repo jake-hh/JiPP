@@ -25,6 +25,12 @@ char *copy_word(char *buf) {
 }
 
 
+void clear_stdin() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);
+}
+
+
 char *get_string(char *msg, int cap) {
 	printf("%s (text): ", msg);
 
@@ -45,6 +51,8 @@ int get_integer(char *msg, int min, int max) {
 
 	if (scanf("%i", &n) != 1)
 		error(6, "Blad przy wczytaniu");
+
+	clear_stdin();
 
 	// Check requirement
 	if (n < min) {
