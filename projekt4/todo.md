@@ -1,8 +1,5 @@
 # TODO
-* fix: czyść brudy w stdin
-* fix: pytaj o string do szukania
 * fix: read_list dodaj studentów do istniejącej listy
-* fix: print correct size of menu
 * fix: read from & save to file
 * fix: shrink memory with realloc when poping & cap much smaller
 * indexing while printing +1

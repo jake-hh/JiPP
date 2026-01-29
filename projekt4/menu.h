@@ -2,7 +2,7 @@
 #define MENU_H_
 
 #define MENU_SIZE 10
-#define NO_READ_MENU_SIZE 10
+#define NO_READ_MENU_SIZE 8
 
 typedef enum {
 	// READ_LIST,

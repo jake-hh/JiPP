@@ -187,7 +187,7 @@ int main(){
 
 	while (1) {
 		print_menu(head);
-		Menu m = get_integer("Podaj nr operacji", 0, MENU_SIZE - 1);
+		Menu m = get_integer("Podaj nr operacji", 0, get_menu_size(head) - 1);
 		printf("\n");
 
 		switch (m) {
