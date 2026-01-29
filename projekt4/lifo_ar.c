@@ -102,6 +102,7 @@ void display_list(Student_list list) {
 }
 
 
+// --- wsadź element na końcu ---
 void push_student(Student_list *list, Student *new_s) {
 	if (!new_s)
 		error(5, "pusty student");
@@ -120,6 +121,7 @@ void push_student(Student_list *list, Student *new_s) {
 
 
 /*
+// --- usuń pierwszy element ---
 Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
@@ -134,6 +136,7 @@ Student *pop_student(Student_list *list) {
 }
 */
 
+// --- usuń ostatni element ---
 Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
