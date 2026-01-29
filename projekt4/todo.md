@@ -1,5 +1,4 @@
 # TODO
-* fix: read_list dodaj studentów do istniejącej listy
 * fix: read from & save to file
 * fix: shrink memory with realloc when poping & cap much smaller
 

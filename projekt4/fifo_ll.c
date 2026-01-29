@@ -45,43 +45,6 @@ int get_menu_size(Student *head) {
 }
 
 
-Student *read_list() {
-	FILE *fd = fopen(DATA_FILE_NAME, "r");
-	if (!fd)
-		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
-
-	Student *head = NULL, *node = NULL, *prev = NULL;
-	char bufor[MAX_BUFFOR];
-
-	while (fgets(bufor, MAX_BUFFOR, fd)) {
-
-		node = (Student*)malloc(sizeof(Student));
-		if (!node)
-			error(4, "malloc student");
-
-		if (!head)
-			head = node;
-		else
-			prev->next = node;
-		node->next = NULL;
-
-		node->name = copy_word(bufor);
-
-		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
-		node->surname = copy_word(bufor);
-
-		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
-		node->year = atoi(bufor);
-
-		prev = node;
-	}
-
-	fclose(fd);
-	printf("Wczytano listę z pliku tekstowego\n");
-	return head;
-}
-
-
 Student *get_student() {
 	printf("\nDodawanie studenta\n");
 	Student *node = (Student*)malloc(sizeof(Student));
@@ -146,6 +109,7 @@ void display_list(Student *head) {
 }
 
 
+// --- wsadź element na początku ---
 Student *push_student(Student *head, Student *new_s) {
 	if (!new_s)
 		error(5, "pusty student");
@@ -155,6 +119,7 @@ Student *push_student(Student *head, Student *new_s) {
 }
 
 
+// --- usuń ostatni element ---
 Student *pop_student(Student **head) {
 	if (!head)
 		error(5, "ptr to ptr to head is null");
@@ -175,6 +140,37 @@ Student *pop_student(Student **head) {
 		*head = NULL;
 
 	return s;
+}
+
+
+Student *read_list() {
+	FILE *fd = fopen(DATA_FILE_NAME, "r");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
+
+	Student *head = NULL, *node = NULL;
+	char bufor[MAX_BUFFOR];
+
+	while (fgets(bufor, MAX_BUFFOR, fd)) {
+
+		node = (Student*)malloc(sizeof(Student));
+		if (!node)
+			error(4, "malloc student");
+
+		node->name = copy_word(bufor);
+
+		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
+		node->surname = copy_word(bufor);
+
+		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
+		node->year = atoi(bufor);
+
+		head = push_student(head, node);
+	}
+
+	fclose(fd);
+	printf("Wczytano listę z pliku tekstowego\n");
+	return head;
 }
 
 
