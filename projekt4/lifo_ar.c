@@ -120,22 +120,6 @@ void push_student(Student_list *list, Student *new_s) {
 }
 
 
-/*
-// --- usuń pierwszy element ---
-Student *pop_student(Student_list *list) {
-	if (!list->length)
-		return NULL;
-
-	Student *pop = list->values[0];
-	list->length--;
-
-	for (int i = 0; i < list->length; i++)
-		list->values[i] = list->values[i + 1];
-
-	return pop;
-}
-*/
-
 // --- usuń ostatni element ---
 Student *pop_student(Student_list *list) {
 	if (!list->length)
