@@ -116,6 +116,14 @@ Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
 
+	if (list->length <= list->capacity / 3 - 8) {
+		list->capacity /= 2;
+		Student **tmp = (Student**) realloc(list->values, list->capacity * sizeof(Student*));
+		if (!tmp)
+			error(4, "realloc lista studentów");
+		list->values = tmp;
+	}
+
 	list->length--;
 	return list->values[list->length];
 }

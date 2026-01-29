@@ -1,6 +1,5 @@
 # TODO
 * fix: read from & save to file
-* fix: shrink memory with realloc when poping & cap much smaller
 
 Zaimplementuj stos (LIFO) i kolejkę (FIFO) w dwóch wariantach - za pomocą listy oraz za pomocą tablic.
 
