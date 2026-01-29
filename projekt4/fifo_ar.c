@@ -208,9 +208,16 @@ int main() {
 				break;
 
 			case FIND_BY_SURNAME:
-				Student *found = find_student_by_surname(list, "Krupi");
-				printf("Znaleziono:\n");
-				display_student(found);
+				char *pattern = get_string("Enter surname pattern", MAX_BUFFOR);
+				Student *found = find_student_by_surname(list, pattern);
+				free(pattern);
+
+				if (found) {
+					printf("\nZnaleziono:\n");
+					display_student(found);
+				} else {
+					printf("\nNieznaleziono\n");
+				}
 				break;
 
 			case DISPLAY_LIST:
