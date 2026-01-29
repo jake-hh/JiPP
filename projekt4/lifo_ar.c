@@ -119,6 +119,7 @@ void push_student(Student_list *list, Student *new_s) {
 }
 
 
+/*
 Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
@@ -131,8 +132,8 @@ Student *pop_student(Student_list *list) {
 
 	return pop;
 }
+*/
 
-/*
 Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
@@ -140,7 +141,6 @@ Student *pop_student(Student_list *list) {
 	list->length--;
 	return list->values[list->length];
 }
-*/
 
 void read_list(Student_list *list) {
 	FILE *fd = fopen(DATA_FILE_NAME, "r");
@@ -179,7 +179,9 @@ void free_student(Student *s) {
 
 
 void free_list(Student_list *list) {
-	for (int i = 0; i < list->length; i++)
+	int length = list->length;
+
+	for (int i = 0; i < length; i++)
 		free_student(pop_student(list));
 }
 
@@ -228,6 +230,7 @@ int main() {
 
 			case DROP_LIST:
 				free_list(&list);
+				display_list_length(list.length);
 				break;
 
 			case SAVE_BIN_FILE:
