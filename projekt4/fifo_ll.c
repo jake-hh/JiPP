@@ -21,7 +21,7 @@ extern char *get_string(char *msg, int cap);
 extern int get_integer(char *msg, int min, int max);
 
 
-void print_menu(Student *head) {
+void print_menu() {
 	printf("\n[Menu]\n"
 			"0 - Quit\n"
 			"1 - Add student\n"
@@ -30,18 +30,9 @@ void print_menu(Student *head) {
 			"4 - Display list\n"
 			"5 - Count students in list\n"
 			"6 - Drop students list\n"
-			"7 - Save to binary file\n");
-
-	if (!head)
-		printf("8 - Load from binary file\n"
-				"9 - Load from text file\n");
-
-	printf("\n");
-}
-
-
-int get_menu_size(Student *head) {
-	return head ? NO_READ_MENU_SIZE : MENU_SIZE;
+			"7 - Save to binary file\n"
+			"8 - Load from binary file\n"
+			"9 - Load from text file\n\n");
 }
 
 
@@ -205,8 +196,8 @@ int main(){
 	Student *head = NULL;
 
 	while (1) {
-		print_menu(head);
-		Menu m = get_integer("Podaj nr operacji", 0, get_menu_size(head) - 1);
+		print_menu();
+		Menu m = get_integer("Podaj nr operacji", 0, MENU_SIZE - 1);
 		printf("\n");
 
 		switch (m) {

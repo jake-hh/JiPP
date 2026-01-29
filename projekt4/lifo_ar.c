@@ -25,7 +25,7 @@ extern char *get_string(char *msg, int cap);
 extern int get_integer(char *msg, int min, int max);
 
 
-void print_menu(int length) {
+void print_menu() {
 	printf("\n[Menu]\n"
 			"0 - Quit\n"
 			"1 - Add student\n"
@@ -34,18 +34,9 @@ void print_menu(int length) {
 			"4 - Display list\n"
 			"5 - Count students in list\n"
 			"6 - Drop students list\n"
-			"7 - Save to binary file\n");
-
-	if (!length)
-		printf("8 - Load from binary file\n"
-				"9 - Load from text file\n");
-
-	printf("\n");
-}
-
-
-int get_menu_size(int length) {
-	return length ? NO_READ_MENU_SIZE : MENU_SIZE;
+			"7 - Save to binary file\n"
+			"8 - Load from binary file\n"
+			"9 - Load from text file\n\n");
 }
 
 
@@ -185,8 +176,8 @@ int main() {
 		error(4, "malloc lista studentów");
 
 	while (1) {
-		print_menu(list.length);
-		Menu m = get_integer("Podaj nr operacji", 0, get_menu_size(list.length) - 1);
+		print_menu();
+		Menu m = get_integer("Podaj nr operacji", 0, MENU_SIZE - 1);
 		printf("\n");
 
 		switch (m) {
