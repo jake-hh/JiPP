@@ -2,7 +2,6 @@
 * fix: read_list dodaj studentów do istniejącej listy
 * fix: read from & save to file
 * fix: shrink memory with realloc when poping & cap much smaller
-* indexing while printing +1
 
 Zaimplementuj stos (LIFO) i kolejkę (FIFO) w dwóch wariantach - za pomocą listy oraz za pomocą tablic.
 

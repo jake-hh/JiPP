@@ -95,7 +95,7 @@ void display_list(Student_list list) {
 	}
 
 	for (int i = 0; i < list.length; i++) {
-		printf("%i:", i);
+		printf("%i:", i+1);
 		display_student(list.values[i]);
 	}
 	display_list_length(list.length);
