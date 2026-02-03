@@ -3,7 +3,8 @@
 #include <string.h>
 #include "menu.h"
 
-#define DATA_FILE_NAME "dane.txt"
+#define TEXT_DATA_FILE_NAME "dane.txt"
+#define BINARY_DATA_FILE_NAME "dane.dat"
 
 #define MAX_BUFFOR 256
 
@@ -93,18 +94,22 @@ void display_list(Student_list list) {
 }
 
 
+void resize_list(Student_list *list, int new_capacity) {
+	Student **tmp = (Student**) realloc(list->values, new_capacity * sizeof(Student*));
+	if (!tmp)
+		error(4, "realloc lista studentów");
+	list->values = tmp;
+	list->capacity = new_capacity;
+}
+
+
 // --- wsadź element na końcu ---
 void push_student(Student_list *list, Student *new_s) {
 	if (!new_s)
 		error(5, "pusty student");
 
-	if (list->length >= list->capacity) {
-		list->capacity *= 2;
-		Student **tmp = (Student**) realloc(list->values, list->capacity * sizeof(Student*));
-		if (!tmp)
-			error(4, "realloc lista studentów");
-		list->values = tmp;
-	}
+	if (list->length >= list->capacity)
+		resize_list(list, list->capacity * 2);
 
 	list->values[list->length] = new_s;
 	list->length++;
@@ -116,20 +121,15 @@ Student *pop_student(Student_list *list) {
 	if (!list->length)
 		return NULL;
 
-	if (list->length <= list->capacity / 3 - 8) {
-		list->capacity /= 2;
-		Student **tmp = (Student**) realloc(list->values, list->capacity * sizeof(Student*));
-		if (!tmp)
-			error(4, "realloc lista studentów");
-		list->values = tmp;
-	}
+	if (list->length <= list->capacity / 3 - 8)
+		resize_list(list, list->capacity / 2);
 
 	list->length--;
 	return list->values[list->length];
 }
 
-void read_list(Student_list *list) {
-	FILE *fd = fopen(DATA_FILE_NAME, "r");
+void read_list(Student_list *list, const char *filename) {
+	FILE *fd = fopen(filename, "r");
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
 
@@ -154,6 +154,108 @@ void read_list(Student_list *list) {
 
 	fclose(fd);
 	printf("Wczytano tablicę z pliku tekstowego\n");
+}
+
+void write_list_binary(Student_list list, const char *filename) {
+	if (!list.length)
+		return;
+
+	// open file for writing
+	FILE *fd = fopen(filename , "wb");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku binarnego do zapisu");
+
+	// write list size to file
+	if (fwrite(&list.length, sizeof(list.length), 1, fd) != 1)
+		error(7, "Could not write number of students to file");
+
+	for (int i = 0; i < list.length; i++) {
+
+		int name_len = strlen(list.values[i]->name) + 1;
+
+		// write name length to file
+		if (fwrite(&name_len, sizeof(name_len), 1, fd) != 1)
+			error(7, "Could not write student name length to file");
+
+		// write student name to file
+		if (fwrite(list.values[i]->name, sizeof(char), name_len, fd) != name_len)
+			error(7, "Could not write student name to file");
+
+		int surname_len = strlen(list.values[i]->surname) + 1;
+
+		// write surname length to file
+		if (fwrite(&surname_len, sizeof(surname_len), 1, fd) != 1)
+			error(7, "Could not write student surname length to file");
+
+		// write student surname to file
+		if (fwrite(list.values[i]->surname, sizeof(char), surname_len, fd) != surname_len)
+			error(7, "Could not write student surname to file");
+
+		// write year length to file
+		if (fwrite(&list.values[i]->year, sizeof(list.values[i]->year), 1, fd) != 1)
+			error(7, "Could not write student year to file");
+	}
+
+	fclose(fd);
+	printf("Saved to binary file successfully\n");
+}
+
+
+void read_list_binary(Student_list *list, const char *filename) {
+
+	// open file for writing
+	FILE *fd = fopen(filename , "rb");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku binarnego do odczytu");
+
+	// read list size from file
+	int length;
+	if (fread(&length, sizeof(list->length), 1, fd) != 1)
+		error(3, "Could not read number of students from file");
+
+	resize_list(list, length + 8);
+
+	for (int i = 0; i < length; i++) {
+
+		Student *s = (Student*)malloc(sizeof(Student));
+		if (!s)
+			error(4, "malloc student");
+
+		// read name length from file
+		int name_len;
+		if (fread(&name_len, sizeof(name_len), 1, fd) != 1)
+			error(3, "Could not read student name length from file");
+
+		s->name = (char*)malloc(name_len);
+		if (!s->name)
+			error(4, "malloc read_list_binary");
+
+		// read student name from file
+		if (fread(s->name, sizeof(char), name_len, fd) != name_len)
+			error(3, "Could not read student name from file");
+
+		// read surname length from file
+		int surname_len;
+		if (fread(&surname_len, sizeof(surname_len), 1, fd) != 1)
+			error(3, "Could not read student surname length from file");
+
+		s->surname = (char*)malloc(surname_len);
+		if (!s->surname)
+			error(4, "malloc read_list_binary");
+
+		// read student surname from file
+		if (fread(s->surname, sizeof(char), surname_len, fd) != surname_len)
+			error(3, "Could not read student surname from file");
+
+		// read year length from file
+		if (fread(&s->year, sizeof(s->year), 1, fd) != 1)
+			error(3, "Could not read student year from file");
+
+		push_student(list, s);
+	}
+
+	fclose(fd);
+	printf("Read from binary file successfully\n");
 }
 
 
@@ -227,15 +329,15 @@ int main() {
 				break;
 
 			case SAVE_BIN_FILE:
-				printf("todo");
+				write_list_binary(list, BINARY_DATA_FILE_NAME);
 				break;
 
 			case READ_BIN_FILE:
-				printf("todo");
+				read_list_binary(&list, BINARY_DATA_FILE_NAME);
 				break;
 
 			case READ_TEXT_FILE:
-				read_list(&list);
+				read_list(&list, TEXT_DATA_FILE_NAME);
 				break;
 
 			default:

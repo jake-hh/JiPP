@@ -1,5 +1,5 @@
 # TODO
-* fix: read from & save to file
+- [ ] Fix student year input range
 
 Zaimplementuj stos (LIFO) i kolejkę (FIFO) w dwóch wariantach - za pomocą listy oraz za pomocą tablic.
 

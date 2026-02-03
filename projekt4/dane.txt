@@ -17,7 +17,7 @@ Amelia
 Lewandowski
 2006
 Mikołaj
-Zielieski
+Zieliński
 1999
 Lena
 Szymańska
@@ -419,7 +419,7 @@ Marta
 Górska
 2002
 Konrad
-Dudziłski
+Dudziński
 2006
 Monika
 Urbanik

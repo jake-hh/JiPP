@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_ERR 7
+#define MAX_ERR 8
 
 static char *p[] = { "",
 	/* 1 */ "Usage:",
@@ -12,7 +12,8 @@ static char *p[] = { "",
 	/* 4 */ "Brak pamięci",
 	/* 5 */ "Złe argumenty funkcji",
 	/* 6 */ "Wprowadzono złe dane",
-	/* 7 */ "Nieznany"
+	/* 7 */ "Zapis pliku",
+	/* 8 */ "Nieznany"
 };
 
 void error(int nr, const char *str) {
