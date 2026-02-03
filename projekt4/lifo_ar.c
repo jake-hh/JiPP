@@ -128,7 +128,8 @@ Student *pop_student(Student_list *list) {
 	return list->values[list->length];
 }
 
-void read_list(Student_list *list, const char *filename) {
+
+void read_list_text(Student_list *list, const char *filename) {
 	FILE *fd = fopen(filename, "r");
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
@@ -155,6 +156,7 @@ void read_list(Student_list *list, const char *filename) {
 	fclose(fd);
 	printf("Wczytano tablicę z pliku tekstowego\n");
 }
+
 
 void write_list_binary(Student_list list, const char *filename) {
 	if (!list.length)
@@ -337,7 +339,7 @@ int main() {
 				break;
 
 			case READ_TEXT_FILE:
-				read_list(&list, TEXT_DATA_FILE_NAME);
+				read_list_text(&list, TEXT_DATA_FILE_NAME);
 				break;
 
 			default:
