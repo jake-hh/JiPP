@@ -291,7 +291,7 @@ int run() {
 
 			case DROP_LIST:
 				free_list(head);
-				display_list_length(list.length);
+				display_list_length(head);
 				head = NULL;
 				break;
 
@@ -301,12 +301,12 @@ int run() {
 
 			case READ_BIN_FILE:
 				read_list_binary(&head, BINARY_DATA_FILE_NAME);
-				display_list_length(list.length);
+				display_list_length(head);
 				break;
 
 			case READ_TEXT_FILE:
 				read_list_text(&head, TEXT_DATA_FILE_NAME);
-				display_list_length(list.length);
+				display_list_length(head);
 				break;
 
 			default:
