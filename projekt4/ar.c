@@ -35,7 +35,7 @@ Student *get_student() {
 
 	s->name = get_string("Enter name", MAX_BUFFOR);
 	s->surname = get_string("Enter surname", MAX_BUFFOR);
-	s->year = get_integer("Enter year", 2000, 2100);
+	s->year = get_integer("Enter year", 1950, 2050);
 	return s;
 }
 
@@ -247,11 +247,9 @@ void free_list(Student_list *list) {
 
 
 int run() {
-	const int INITIAL_CAP = 16;
-
 	Student_list list;
-	list.values = (Student**) malloc(INITIAL_CAP * sizeof(Student*));
-	list.capacity = INITIAL_CAP;
+	list.values = (Student**) malloc(INITIAL_ARRAY_CAP * sizeof(Student*));
+	list.capacity = INITIAL_ARRAY_CAP;
 	list.length = 0;
 
 	if (!list.values)
@@ -306,10 +304,12 @@ int run() {
 
 			case READ_BIN_FILE:
 				read_list_binary(&list, BINARY_DATA_FILE_NAME);
+				display_list_length(list.length);
 				break;
 
 			case READ_TEXT_FILE:
 				read_list_text(&list, TEXT_DATA_FILE_NAME);
+				display_list_length(list.length);
 				break;
 
 			default:

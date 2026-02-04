@@ -5,6 +5,8 @@
 #define BINARY_DATA_FILE_NAME "dane.dat"
 
 #define MAX_BUFFOR 256
+#define INITIAL_ARRAY_CAP 16
+
 
 
 typedef struct {

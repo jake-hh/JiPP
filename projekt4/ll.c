@@ -35,7 +35,7 @@ Student *get_student() {
 
 	node->name = get_string("Enter name", MAX_BUFFOR);
 	node->surname = get_string("Enter surname", MAX_BUFFOR);
-	node->year = get_integer("Enter year", 2000, 2100);
+	node->year = get_integer("Enter year", 1950, 2050);
 	return node;
 }
 
@@ -291,6 +291,7 @@ int run() {
 
 			case DROP_LIST:
 				free_list(head);
+				display_list_length(list.length);
 				head = NULL;
 				break;
 
@@ -300,10 +301,12 @@ int run() {
 
 			case READ_BIN_FILE:
 				read_list_binary(&head, BINARY_DATA_FILE_NAME);
+				display_list_length(list.length);
 				break;
 
 			case READ_TEXT_FILE:
 				read_list_text(&head, TEXT_DATA_FILE_NAME);
+				display_list_length(list.length);
 				break;
 
 			default:
