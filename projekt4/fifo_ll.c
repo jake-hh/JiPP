@@ -135,6 +135,7 @@ Student *pop_student(Student **head) {
 
 
 Student *read_list() {
+	// open file for reading
 	FILE *fd = fopen(DATA_FILE_NAME, "r");
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");

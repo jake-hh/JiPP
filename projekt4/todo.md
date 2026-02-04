@@ -1,5 +1,7 @@
 # TODO
 - [ ] Fix student year input range
+- [ ] Fix read_list_text not accepting header
+- [ ] Binary file io [WIP]
 
 Zaimplementuj stos (LIFO) i kolejkę (FIFO) w dwóch wariantach - za pomocą listy oraz za pomocą tablic.
 

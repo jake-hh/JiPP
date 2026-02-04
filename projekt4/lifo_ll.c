@@ -3,7 +3,8 @@
 #include <string.h>
 #include "menu.h"
 
-#define DATA_FILE_NAME "dane.txt"
+#define TEXT_DATA_FILE_NAME "dane.txt"
+#define BINARY_DATA_FILE_NAME "dane.dat"
 
 #define MAX_BUFFOR 256
 
@@ -58,7 +59,7 @@ Student *find_student_by_surname(Student *head, char *surname) {
 }
 
 
-int length_list(Student *head) {
+int get_list_length(Student *head) {
 	int len = 0;
 
 	while (head) {
@@ -71,7 +72,7 @@ int length_list(Student *head) {
 
 
 void display_list_length(Student *head) {
-	printf("dlugosc listy = %d\n\n", length_list(head));
+	printf("dlugosc listy = %d\n\n", get_list_length(head));
 }
 
 
@@ -125,8 +126,9 @@ Student *pop_student(Student **head) {
 }
 
 
-Student *read_list() {
-	FILE *fd = fopen(DATA_FILE_NAME, "r");
+Student *read_list_text(const char *filename) {
+	// open file for reading
+	FILE *fd = fopen(filename, "r");
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
 
@@ -153,6 +155,109 @@ Student *read_list() {
 	fclose(fd);
 	printf("Wczytano listę z pliku tekstowego\n");
 	return head;
+}
+
+
+void write_list_binary(Student *head, const char *filename) {
+	// open file for writing
+	FILE *fd = fopen(filename , "wb");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku binarnego do zapisu");
+
+	int length = get_list_length(head);
+
+	// write list size to file
+	if (fwrite(&length, sizeof(length), 1, fd) != 1)
+		error(7, "Could not write number of students to file");
+
+	for (int i = length - 1; i >= 0; i--) {
+
+		Student *node = head;
+		for (int j = 0; j < i; j++)
+			node = node->next;
+
+		int name_len = strlen(node->name) + 1;
+
+		// write name length to file
+		if (fwrite(&name_len, sizeof(name_len), 1, fd) != 1)
+			error(7, "Could not write student name length to file");
+
+		// write student name to file
+		if (fwrite(node->name, sizeof(char), name_len, fd) != name_len)
+			error(7, "Could not write student name to file");
+
+		int surname_len = strlen(node->surname) + 1;
+
+		// write surname length to file
+		if (fwrite(&surname_len, sizeof(surname_len), 1, fd) != 1)
+			error(7, "Could not write student surname length to file");
+
+		// write student surname to file
+		if (fwrite(node->surname, sizeof(char), surname_len, fd) != surname_len)
+			error(7, "Could not write student surname to file");
+
+		// write year length to file
+		if (fwrite(&node->year, sizeof(node->year), 1, fd) != 1)
+			error(7, "Could not write student year to file");
+	}
+
+	fclose(fd);
+	printf("Saved to binary file successfully\n");
+}
+
+
+void read_list_binary(Student **head, const char *filename) {
+	// open file for reading
+	FILE *fd = fopen(filename , "rb");
+	if (!fd)
+		error(2, "Nie mogę otworzyć pliku binarnego do odczytu");
+
+	// read list size from file
+	int length;
+	if (fread(&length, sizeof(length), 1, fd) != 1)
+		error(3, "Could not read number of students from file");
+
+	for (int i = 0; i < length; i++) {
+
+		Student *node = (Student*)malloc(sizeof(Student));
+		if (!node)
+			error(4, "malloc student");
+
+		// read name length from file
+		int name_len;
+		if (fread(&name_len, sizeof(name_len), 1, fd) != 1)
+			error(3, "Could not read student name length from file");
+
+		node->name = (char*)malloc(name_len);
+		if (!node->name)
+			error(4, "malloc read_list_binary");
+
+		// read student name from file
+		if (fread(node->name, sizeof(char), name_len, fd) != name_len)
+			error(3, "Could not read student name from file");
+
+		// read surname length from file
+		int surname_len;
+		if (fread(&surname_len, sizeof(surname_len), 1, fd) != 1)
+			error(3, "Could not read student surname length from file");
+
+		node->surname = (char*)malloc(surname_len);
+		if (!node->surname)
+			error(4, "malloc read_list_binary");
+
+		// read student surname from file
+		if (fread(node->surname, sizeof(char), surname_len, fd) != surname_len)
+			error(3, "Could not read student surname from file");
+
+		// read year length from file
+		if (fread(&node->year, sizeof(node->year), 1, fd) != 1)
+			error(3, "Could not read student year from file");
+
+		*head = push_student(*head, node);
+	}
+
+	fclose(fd);
+	printf("Read from binary file successfully\n");
 }
 
 
@@ -216,15 +321,15 @@ int main(){
 				break;
 
 			case SAVE_BIN_FILE:
-				printf("todo");
+				write_list_binary(head, BINARY_DATA_FILE_NAME);
 				break;
 
 			case READ_BIN_FILE:
-				printf("todo");
+				read_list_binary(&head, BINARY_DATA_FILE_NAME);
 				break;
 
 			case READ_TEXT_FILE:
-				head = read_list();
+				head = read_list_text(TEXT_DATA_FILE_NAME);
 				break;
 
 			default:
