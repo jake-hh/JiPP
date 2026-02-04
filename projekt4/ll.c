@@ -257,18 +257,20 @@ int run() {
 		printf("\n");
 
 		switch (m) {
-			case PUSH:
+			case PUSH: {
 				head = push_student(head, get_student());
 				break;
+			}
 
-			case POP:
+			case POP: {
 				Student *to_remove = pop_student(&head);
 				printf("Usunięto:\n");
 				display_student(to_remove);
 				free_student(to_remove);
 				break;
+			}
 
-			case FIND_BY_SURNAME:
+			case FIND_BY_SURNAME: {
 				char *pattern = get_string("Enter surname pattern", MAX_BUFFOR);
 				Student *found = find_student_by_surname(head, pattern);
 				free(pattern);
@@ -280,37 +282,45 @@ int run() {
 					printf("\nNieznaleziono\n");
 				}
 				break;
+			}
 
-			case DISPLAY_LIST:
+			case DISPLAY_LIST: {
 				display_list(head);
 				break;
+			}
 
-			case DISPLAY_LENGTH:
+			case DISPLAY_LENGTH: {
 				display_list_length(head);
 				break;
+			}
 
-			case DROP_LIST:
+			case DROP_LIST: {
 				free_list(head);
 				display_list_length(head);
 				head = NULL;
 				break;
+			}
 
-			case SAVE_BIN_FILE:
+			case SAVE_BIN_FILE: {
 				write_list_binary(head, BINARY_DATA_FILE_NAME);
 				break;
+			}
 
-			case READ_BIN_FILE:
+			case READ_BIN_FILE: {
 				read_list_binary(&head, BINARY_DATA_FILE_NAME);
 				display_list_length(head);
 				break;
+			}
 
-			case READ_TEXT_FILE:
+			case READ_TEXT_FILE: {
 				read_list_text(&head, TEXT_DATA_FILE_NAME);
 				display_list_length(head);
 				break;
+			}
 
-			default:
+			default: {
 				return 0;
+			}
 		}
 	}
 }
