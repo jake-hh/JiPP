@@ -101,13 +101,13 @@ Student *push_student(Student *head, Student *new_s) {
 }
 
 
-Student *read_list_text(const char *filename) {
+void read_list_text(Student **head, const char *filename) {
 	// open file for reading
 	FILE *fd = fopen(filename, "r");
 	if (!fd)
 		error(2, "Nie mogę otworzyć pliku z danymi do odczytu!");
 
-	Student *head = NULL, *node = NULL;
+	Student *node = NULL;
 	char bufor[MAX_BUFFOR];
 
 	while (fgets(bufor, MAX_BUFFOR, fd)) {
@@ -124,12 +124,11 @@ Student *read_list_text(const char *filename) {
 		if(!fgets(bufor, MAX_BUFFOR, fd)) break;
 		node->year = atoi(bufor);
 
-		head = push_student(head, node);
+		*head = push_student(*head, node);
 	}
 
 	fclose(fd);
 	printf("Wczytano listę z pliku tekstowego\n");
-	return head;
 }
 
 
@@ -304,7 +303,7 @@ int run() {
 				break;
 
 			case READ_TEXT_FILE:
-				head = read_list_text(TEXT_DATA_FILE_NAME);
+				read_list_text(&head, TEXT_DATA_FILE_NAME);
 				break;
 
 			default:

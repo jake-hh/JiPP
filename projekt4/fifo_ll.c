@@ -1,7 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "menu.h"
 #include "ll.h"
 
 extern void error(int nr, const char *str);
