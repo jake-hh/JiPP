@@ -17,13 +17,22 @@ void print_menu() {
 			"0 - Quit\n"
 			"1 - Add student\n"
 			"2 - Remove student\n"
-			"3 - Find student by surname\n"
+			"3 - Find student\n"
 			"4 - Display list\n"
 			"5 - Count students in list\n"
 			"6 - Drop students list\n"
 			"7 - Save to binary file\n"
 			"8 - Load from binary file\n"
 			"9 - Load from text file\n\n");
+}
+
+
+void print_field_types() {
+	printf("[Search by]\n"
+			"0 - Skip\n"
+			"1 - Name\n"
+			"2 - Surname\n"
+			"3 - Year\n\n");
 }
 
 
@@ -40,9 +49,25 @@ Student *get_student() {
 }
 
 
+Student *find_student_by_name(Student *head, char *name) {
+	while (head && !strstr(head->name, name))
+		head = head->next;
+
+	return head;
+}
+
+
 Student *find_student_by_surname(Student *head, char *surname) {
 	// while (head && strcmp(head->surname, surname))
 	while (head && !strstr(head->surname, surname))
+		head = head->next;
+
+	return head;
+}
+
+
+Student *find_student_by_year(Student *head, int year) {
+	while (head && head->year != year)
 		head = head->next;
 
 	return head;
@@ -271,8 +296,27 @@ int run() {
 			}
 
 			case FIND_BY_SURNAME: {
-				char *pattern = get_string("Enter surname pattern", MAX_BUFFOR);
-				Student *found = find_student_by_surname(head, pattern);
+				print_field_types();
+				FieldType field = get_integer("Podaj nr pola", 0, FIELD_TYPE_MENU_SIZE - 1);
+				printf("\n");
+
+				if (field == SKIP)
+					break;
+
+				char *pattern = get_string("Podaj pattern", MAX_BUFFOR);
+				Student *found;
+
+				if (field == YEAR) {
+					int year = atoi(pattern);
+					found = find_student_by_year(head, year);
+				}
+				else if (field == NAME) {
+					found = find_student_by_name(head, pattern);
+				}
+				else if (field == SURNAME) {
+					found = find_student_by_surname(head, pattern);
+				}
+
 				free(pattern);
 
 				if (found) {
@@ -296,8 +340,8 @@ int run() {
 
 			case DROP_LIST: {
 				free_list(head);
-				display_list_length(head);
 				head = NULL;
+				display_list_length(head);
 				break;
 			}
 

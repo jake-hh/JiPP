@@ -17,13 +17,22 @@ void print_menu() {
 			"0 - Quit\n"
 			"1 - Add student\n"
 			"2 - Remove student\n"
-			"3 - Find student by surname\n"
+			"3 - Find student\n"
 			"4 - Display list\n"
 			"5 - Count students in list\n"
 			"6 - Drop students list\n"
 			"7 - Save to binary file\n"
 			"8 - Load from binary file\n"
 			"9 - Load from text file\n\n");
+}
+
+
+void print_field_types() {
+	printf("[Search by]\n"
+			"0 - Skip\n"
+			"1 - Name\n"
+			"2 - Surname\n"
+			"3 - Year\n\n");
 }
 
 
@@ -40,10 +49,28 @@ Student *get_student() {
 }
 
 
+Student *find_student_by_name(Student_list list, char *name) {
+	for (int i = 0; i < list.length; i++)
+		if (strstr(list.values[i]->name, name))
+			return list.values[i];
+
+	return NULL;
+}
+
+
 Student *find_student_by_surname(Student_list list, char *surname) {
 	// !strcmp(list.values[i]->surname, surname)
 	for (int i = 0; i < list.length; i++)
 		if (strstr(list.values[i]->surname, surname))
+			return list.values[i];
+
+	return NULL;
+}
+
+
+Student *find_student_by_year(Student_list list, int year) {
+	for (int i = 0; i < list.length; i++)
+		if (strstr(list.values[i]->year, year))
 			return list.values[i];
 
 	return NULL;
@@ -275,8 +302,27 @@ int run() {
 			}
 
 			case FIND_BY_SURNAME: {
-				char *pattern = get_string("Enter surname pattern", MAX_BUFFOR);
-				Student *found = find_student_by_surname(list, pattern);
+				print_field_types();
+				FieldType field = get_integer("Podaj nr pola", 0, FIELD_TYPE_MENU_SIZE - 1);
+				printf("\n");
+
+				if (field == SKIP)
+					break;
+
+				char *pattern = get_string("Podaj pattern", MAX_BUFFOR);
+				Student *found;
+
+				if (field == YEAR) {
+					int year = atoi(pattern);
+					found = find_student_by_year(list, year);
+				}
+				else if (field == NAME) {
+					found = find_student_by_name(list, pattern);
+				}
+				else if (field == SURNAME) {
+					found = find_student_by_surname(list, pattern);
+				}
+
 				free(pattern);
 
 				if (found) {

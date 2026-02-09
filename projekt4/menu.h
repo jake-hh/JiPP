@@ -2,10 +2,9 @@
 #define MENU_H_
 
 #define MENU_SIZE 10
-#define NO_READ_MENU_SIZE 8
+#define FIELD_TYPE_MENU_SIZE 4
 
 typedef enum {
-	// READ_LIST,
 	/* 0 */ QUIT,
 	/* 1 */ PUSH,
 	/* 2 */ POP,
@@ -17,5 +16,12 @@ typedef enum {
 	/* 8 */ READ_BIN_FILE,
 	/* 9 */ READ_TEXT_FILE,
 } Menu;
+
+typedef enum {
+	/* 0 */ SKIP,
+	/* 1 */ NAME,
+	/* 2 */ SURNAME,
+	/* 3 */ YEAR,
+} FieldType;
 
 #endif
