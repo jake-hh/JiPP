@@ -70,7 +70,7 @@ Student *find_student_by_surname(Student_list list, char *surname) {
 
 Student *find_student_by_year(Student_list list, int year) {
 	for (int i = 0; i < list.length; i++)
-		if (strstr(list.values[i]->year, year))
+		if (list.values[i]->year == year)
 			return list.values[i];
 
 	return NULL;
