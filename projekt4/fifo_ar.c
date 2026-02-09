@@ -1,3 +1,6 @@
+// clear; gcc -g -O0 fifo_ar.c ar.c util_?.c -o fifo_ar
+// clear; gcc fifo_ar.c ar.c util_?.c -o fifo_ar
+
 #include <stdlib.h>
 #include "ar.h"
 
