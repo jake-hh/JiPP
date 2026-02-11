@@ -259,9 +259,11 @@ void read_list_binary(Student_list *list, const char *filename) {
 
 
 void free_student(Student *s) {
-	free(s->name);
-	free(s->surname);
-	free(s);
+	if (s) {
+		free(s->name);
+		free(s->surname);
+		free(s);
+	}
 }
 
 
@@ -295,9 +297,15 @@ int run() {
 
 			case POP: {
 				Student *to_remove = pop_student(&list);
-				printf("Usunięto:\n");
-				display_student(to_remove);
-				free_student(to_remove);
+
+				if (to_remove) {
+					printf("Usunięto:\n");
+					display_student(to_remove);
+					free_student(to_remove);
+				}
+				else {
+					display_list(list);
+				}
 				break;
 			}
 
